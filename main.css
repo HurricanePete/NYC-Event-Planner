@@ -21,6 +21,11 @@ input {
 	margin-bottom: 0;
 }
 
+ul {
+	margin: 0px;
+	padding-left: 10px;
+}
+
 .hidden {
 	display: none;
 }
@@ -43,3 +48,8 @@ input {
     margin: 0px;
     padding: 0px
 }
+
+.js-result-display {
+	max-width: 50%;
+	margin: 0px;
+}	
