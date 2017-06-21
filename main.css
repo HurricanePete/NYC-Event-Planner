@@ -26,6 +26,14 @@ ul {
 	padding-left: 10px;
 }
 
+span.js-event-name, span.js-start-date {
+	margin: 0px;
+}
+
+.results-button {
+	width: 100%;
+}
+
 .hidden {
 	display: none;
 }
@@ -44,12 +52,13 @@ ul {
 
 #map {
     height: 100%;
-    width: 100%;
+    max-width: 60%;
     margin: 0px;
     padding: 0px
 }
 
 .js-result-display {
-	max-width: 50%;
+	max-width: 35%;
 	margin: 0px;
+	display: inline-block;
 }	

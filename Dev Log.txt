@@ -1,0 +1,14 @@
+-6/20-17-
+
+(1) Added API functionality, AJAX() settings, and a template for displaying API data.
+(2) Also added a Bootstrap script --> should look into collapsible functionality/check-in with Mark
+
+---To Do---
+(1) Check in with Mark about Bootstrap OR shorten the display list and add navigation buttons
+--> alternatively, look into displaying the info within the google map
+(2) Add a Google Map and markers --> will require geocoding for the Approved Events data
+(3) Add a search function for the Approved Events page
+(4) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> clip seconds and milliseconds off of the display value
+--> event_name on top and start_date on the bottom 
