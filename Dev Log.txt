@@ -1,4 +1,4 @@
--6/20-17-
+-6/20/17-
 
 (1) Added API functionality, AJAX() settings, and a template for displaying API data.
 (2) Also added a Bootstrap script --> should look into collapsible functionality/check-in with Mark
@@ -11,4 +11,18 @@
 (4) Find a way to clean up the start_date and end_date values
 --> switch the date format
 --> clip seconds and milliseconds off of the display value
+--> event_name on top and start_date on the bottom 
+
+-6/21/17-
+
+(1) Added google maps but it does not currently display properly
+(2) Removed bootstrap and added jQuery "collapse" for results-display elements
+
+---To Do---
+(1) Fix google maps add so that it will display content with focus on NYC
+(2) Add functionality for geocoding and marker adds
+(3) Add a search function for the Approved Events page
+(4) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> remove the T and 24 hours clock format
 --> event_name on top and start_date on the bottom 
