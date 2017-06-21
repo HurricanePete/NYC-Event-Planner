@@ -2,16 +2,31 @@ var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57
 
 var RESULT_HTML_TEMPLATE = (
   '<div class="result-panes">' +
-    '<div><button data-toggle="collapse" data-parent="#accordion" href=""><span class="js-event-name"></span><span class="js-start-date"></span></button></div>' +
-    '<div class="collapse" id="info"><ul><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-type"></li><li class="js-event-agency"></li></ul></div>' +
+    '<div><button class="results-button"><span class="js-event-name"></span><br><span class="js-start-date"></span></button></div>' +
+    '<div class="results-collapse hidden"><ul><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-type"></li><li class="js-event-agency"></li></ul></div>' +
   '</div>'
 );
 
+function getCurrentDate () {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1;
+  var yyyy = today.getFullYear();
+  if(dd<10) {
+      dd = '0'+dd
+  } 
+  if(mm<10) {
+      mm = '0'+mm
+  } 
+  today = yyyy + '-' + mm + '-' + dd;
+  return today;
+}
 
 function getDataFromApi(callback) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
+      //'start_date_time': getCurrentDate(),
       '$limit': 15,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
       //'$q': searchTerm,
@@ -45,6 +60,8 @@ function displayEventData(data) {
 }
 
 
+
+
 $('div.button-nav').on('click', '#approved-events', function (event) {
     event.preventDefault();
     getDataFromApi(displayEventData);
@@ -52,4 +69,9 @@ $('div.button-nav').on('click', '#approved-events', function (event) {
     $(this).closest('body').find('div.result-display').removeClass('hidden');
     $(this).closest('body').find('div.results').removeClass('hidden');
     console.log('You did it');
+})
+
+$('div.js-result-display').on('click', '.results-button', function (event) {
+  event.preventDefault();
+  $(this).find('.results-collapse').toggleClass("hidden");
 })
