@@ -7,29 +7,28 @@ var RESULT_HTML_TEMPLATE = (
   '</div>'
 );
 
-function initializeMap(state) {
+function initializeMap() {
   var latlng = new google.maps.LatLng(40.7288, -73.9579);
   var mapOptions = {
-   zoom: 8,
-   center: latlng,
-   mapTypeId: google.maps.MapTypeId.ROADMAP
+   zoom: 12,
+   center: latlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
-function codeAddress(state) {
-  var address = document.getElementById('address').value;
-  state.geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      //state.map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          map: state.map,
-          position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
+//function codeAddress(state) {
+//  var address = document.getElementById('address').value;
+//  state.geocoder.geocode( { 'address': address}, function(results, status) {
+//    if (status == google.maps.GeocoderStatus.OK) {
+//      state.map.setCenter(results[0].geometry.location);
+//      var marker = new google.maps.Marker({
+//          map: state.map,
+//          position: results[0].geometry.location
+//      });
+//    } else {
+//      alert('Geocode was not successful for the following reason: ' + status);
+//    }
+//  });
+//}
 
 function getCurrentDate () {
   var today = new Date();
@@ -89,6 +88,7 @@ $('div.button-nav').on('click', '#approved-events', function (event) {
     $(this).closest('body').find('div.map').removeClass('hidden');
     $(this).closest('body').find('div.result-display').removeClass('hidden');
     $(this).closest('body').find('div.results').removeClass('hidden');
+    initializeMap();
     console.log('You did it');
 })
 
@@ -96,3 +96,9 @@ $('div.js-result-display').on('click', '.results-button', function (event) {
   event.preventDefault();
   $(this).closest('div').find('.results-collapse').toggleClass('hidden');
 })
+
+$(document).ready(function() {
+    $(window).resize(function() {
+        google.maps.event.trigger(map, 'resize');
+    });
+});

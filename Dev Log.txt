@@ -26,3 +26,17 @@
 --> switch the date format
 --> remove the T and 24 hours clock format
 --> event_name on top and start_date on the bottom 
+
+-6/22/17-
+
+(1) Google map is now functional but is offset strangely
+(2) .js-result-display is also offset
+
+--To Do--
+(1) Fix display of .js-result-display and the Google map so that they are not offset
+(2) Add functionality for geocoding and marker adds
+(3) Add a search function for the Approved Events page
+(4) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> remove the T and 24 hours clock format
+--> event_name on top and start_date on the bottom 

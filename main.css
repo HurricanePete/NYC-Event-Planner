@@ -1,7 +1,11 @@
 * {
 	margin: 15px;
 	box-sizing: border-box;
+}
 
+html {
+	height: 100%;
+	width: 100%;
 }
 
 header {
@@ -12,6 +16,8 @@ body {
 	border: 1px solid black;
 	padding: 15px;
 	font-family: 'Roboto', sans-serif;
+	height: 100%;
+	width: 100%;
 }
 form {
 	max-height: 80px;
@@ -28,6 +34,11 @@ ul {
 
 span.js-event-name, span.js-start-date {
 	margin: 0px;
+}
+
+.results {
+	height: 100%;
+	width: 100%;
 }
 
 .results-button {
@@ -50,15 +61,17 @@ span.js-event-name, span.js-start-date {
 	width: 20%;
 }
 
-#map {
+.map {
     height: 100%;
-    max-width: 60%;
-    margin: 0px;
-    padding: 0px
+    width: 60%;
+    margin: 0 auto;
+    padding: 0px;
+    display: inline-block;
+    overflow: visible;
 }
 
 .js-result-display {
 	max-width: 35%;
-	margin: 0px;
+	margin-bottom: 5px;
 	display: inline-block;
 }	
