@@ -50,7 +50,7 @@ function getDataFromApi(callback) {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
       //'start_date_time': getCurrentDate(),
-      '$limit': 15,
+      '$limit': 10,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
       //'$q': searchTerm,
       '$offset': 0,
@@ -96,9 +96,3 @@ $('div.js-result-display').on('click', '.results-button', function (event) {
   event.preventDefault();
   $(this).closest('div').find('.results-collapse').toggleClass('hidden');
 })
-
-$(document).ready(function() {
-    $(window).resize(function() {
-        google.maps.event.trigger(map, 'resize');
-    });
-});

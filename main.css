@@ -1,47 +1,13 @@
-* {
-	margin: 15px;
-	box-sizing: border-box;
-}
-
 html {
-	height: 100%;
-	width: 100%;
+	background-color: aliceblue;
+	display: inline-block;
 }
 
 header {
 	text-align: center;
 }
 
-body {
-	border: 1px solid black;
-	padding: 15px;
-	font-family: 'Roboto', sans-serif;
-	height: 100%;
-	width: 100%;
-}
-form {
-	max-height: 80px;
-}
-
-input {
-	margin-bottom: 0;
-}
-
-ul {
-	margin: 0px;
-	padding-left: 10px;
-}
-
-span.js-event-name, span.js-start-date {
-	margin: 0px;
-}
-
-.results {
-	height: 100%;
-	width: 100%;
-}
-
-.results-button {
+.title {
 	width: 100%;
 }
 
@@ -49,29 +15,39 @@ span.js-event-name, span.js-start-date {
 	display: none;
 }
 
-.button-nav {
-	margin: 0 auto;
-	padding: 0px;
-	text-align: center;
+.results {
+	border: 2px solid grey;
+	padding: 2.08%;
 }
-
-.submit-buttons {
-	display: inline-block;
-	margin: 0 auto;
-	width: 20%;
+.map-wrapper {
+	height: 800px;
 }
 
 .map {
-    height: 100%;
-    width: 60%;
+    height: 800px;
     margin: 0 auto;
     padding: 0px;
-    display: inline-block;
-    overflow: visible;
+}
+
+.submit-buttons {
+	width: 24%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.button-nav {
+	padding-right: 10%;
+	padding-left: 10%;
+	margin-bottom: 15px;
+}
+
+.results-button {
+	width: 100%;
+	margin-bottom: 15px;
 }
 
 .js-result-display {
-	max-width: 35%;
-	margin-bottom: 5px;
-	display: inline-block;
-}	
+	border: .5px solid grey;
+	border-radius: 2px;
+	padding: 5px;
+}
