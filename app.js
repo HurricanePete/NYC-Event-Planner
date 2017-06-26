@@ -15,37 +15,27 @@ function initializeMap() {
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
-//function codeAddress(state) {
-//  var address = document.getElementById('address').value;
-//  state.geocoder.geocode( { 'address': address}, function(results, status) {
-//    if (status == google.maps.GeocoderStatus.OK) {
-//      state.map.setCenter(results[0].geometry.location);
-//      var marker = new google.maps.Marker({
-//          map: state.map,
-//          position: results[0].geometry.location
-//      });
-//    } else {
-//      alert('Geocode was not successful for the following reason: ' + status);
-//    }
-//  });
-//}
-
-function getCurrentDate () {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1;
-  var yyyy = today.getFullYear();
-  if(dd<10) {
-      dd = '0'+dd
-  } 
-  if(mm<10) {
-      mm = '0'+mm
-  } 
-  today = yyyy + '-' + mm + '-' + dd;
-  return today;
+function codeAddress(address) {
+  var address = document.getElementById('address').value;
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      //state.map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
 }
 
-function getDataFromApi(callback) {
+//var marker = new google.maps.Marker({
+//  position: {lat: 40.687133, lng: -73.989429},
+//  title: 'First Marker'
+//})
+
+function getDataFromApi(callback, callbackgeo) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
@@ -66,8 +56,8 @@ function getDataFromApi(callback) {
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + (result.start_date_time).substring(0,16));
-  template.find(".js-end-time").text("Ends: " + (result.end_date_time).substring(0,16));
+  template.find(".js-start-date").text("Starts: " + Date(result.start_date_time));
+  template.find(".js-end-time").text("Ends: " + Date(result.end_date_time));
   template.find(".js-event-loc").text("Location: " + result.event_location);
   template.find(".js-event-borough").text("Borough: " + result.event_borough);
   template.find(".js-event-type").text("Type: " + result.event_type);
@@ -82,13 +72,27 @@ function displayEventData(data) {
   $('.js-result-display').html(results);
 }
 
+function createGeoTags(data) {
+ var results = data.map(function(item, index) {
+    return item.event_location + ', ' + item.event_borough;
+  });
+ for (i=0; i < results.length; i++) {
+  codeAddress(i);
+ }
+}
+
+function displayApiResults(target) {
+  target.closest('body').find('div.map').removeClass('hidden');
+  target.closest('body').find('div.result-display').removeClass('hidden');
+  target.closest('body').find('div.results').removeClass('hidden');
+}
+
 $('div.button-nav').on('click', '#approved-events', function (event) {
     event.preventDefault();
-    getDataFromApi(displayEventData);
-    $(this).closest('body').find('div.map').removeClass('hidden');
-    $(this).closest('body').find('div.result-display').removeClass('hidden');
-    $(this).closest('body').find('div.results').removeClass('hidden');
+    getDataFromApi(displayEventData, createGeoTags);
+    displayApiResults($(this));
     initializeMap();
+    //marker.setMap(map);
     console.log('You did it');
 })
 
