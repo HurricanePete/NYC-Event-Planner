@@ -20,9 +20,11 @@ header {
 	padding: 2.08%;
 }
 .map-wrapper {
-	height: 50%;
+	height: 66%;
 	width: 61%;
 	position: fixed;
+	max-height: 770px;
+	max-width: 620px;
 }
 
 .map {
@@ -49,7 +51,21 @@ header {
 }
 
 .js-result-display {
-	border: .5px solid grey;
-	border-radius: 2px;
 	padding: 5px;
 }
+
+.results-button:after {
+	margin-bottom: 0px;
+}
+
+/*@media only screen and (min-width: 1040px) {
+	.map-wrapper {
+		height: 66%;
+		width: 60%;
+		position: fixed;
+	}
+	.map {
+		height: 100%;
+		width: 73%;
+	}
+}*/
