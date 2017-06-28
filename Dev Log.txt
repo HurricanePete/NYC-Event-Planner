@@ -52,3 +52,28 @@
 --> switch the date format
 --> remove the T and 24 hours clock format
 --> event_name on top and start_date on the bottom 
+
+-6/25/17-
+(1) Added a fixed property to the google maps so that it will scroll with the user
+(2) Fixed a resulting display error that had the map touching the bottom right corner of the disply
+
+--To Do--
+(1) Fix a display error when the screen width gets too wide
+(2) Add functionality for geocoding and marker adds
+(3) Add a search function for the Approved Events page
+(4) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> remove the T and 24 hours clock format
+--> event_name on top and start_date on the bottom 
+
+-6/26/17-
+(1) Added first map marker to google maps
+(2) Fixed display error for wide-screen by adding a max-width property to the map-wrapper element
+
+--To Do--
+(1) Add functionality for geocoding and marker adds
+(2) Add a search function for the Approved Events page
+(3) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> remove the T and 24 hours clock format
+--> event_name on top and start_date on the bottom 

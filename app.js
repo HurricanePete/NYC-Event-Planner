@@ -14,6 +14,11 @@ function initializeMap() {
    center: latlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  var marker = new google.maps.Marker({
+    position: latlng,
+    map: map,
+    title: 'First Marker'
+})
 }
 function codeAddress(address) {
   var address = document.getElementById('address').value;
@@ -29,11 +34,6 @@ function codeAddress(address) {
     }
   });
 }
-
-//var marker = new google.maps.Marker({
-//  position: {lat: 40.687133, lng: -73.989429},
-//  title: 'First Marker'
-//})
 
 function getDataFromApi(callback, callbackgeo) {
   var settings = {
