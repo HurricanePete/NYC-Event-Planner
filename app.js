@@ -1,3 +1,7 @@
+var state = {
+  map: null
+}
+
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
 
 var RESULT_HTML_TEMPLATE = (
@@ -13,29 +17,16 @@ function initializeMap() {
    zoom: 12,
    center: latlng
   }
-  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
   var marker = new google.maps.Marker({
     position: latlng,
-    map: map,
+    map: state.map,
     title: 'First Marker'
 })
 }
-function codeAddress(address) {
-  var address = document.getElementById('address').value;
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      //state.map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
 
-function getDataFromApi(callback, callbackgeo) {
+function getDataFromApi(callback) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
@@ -56,7 +47,7 @@ function getDataFromApi(callback, callbackgeo) {
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + moment(result.start_date_time));
+  template.find(".js-start-date").text("Starts: " + moment(result.start_date_time, moment.ISO_8601));
   template.find(".js-end-time").text("Ends: " + result.end_date_time);
   template.find(".js-event-loc").text("Location: " + result.event_location);
   template.find(".js-event-borough").text("Borough: " + result.event_borough);
@@ -72,13 +63,29 @@ function displayEventData(data) {
   $('.js-result-display').html(results);
 }
 
-function createGeoTags(data) {
+function createAddress(data) {
  var results = data.map(function(item, index) {
-    return item.event_location + ', ' + item.event_borough;
+    return (item.event_location.substring(0,30) + ', ' + item.event_borough);
   });
- for (i=0; i < results.length; i++) {
-  codeAddress(i);
- }
+ return results;
+}
+
+function codeAddress(data) {
+  var geocoder = new google.maps.Geocoder();
+  var address = createAddress(data);
+  for (i=0; i<address.length; i++) {
+    geocoder.geocode( { 'address': address[i]}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var marker = new google.maps.Marker({
+            map: state.map,
+            position: results[0].geometry.location
+        });
+      } 
+      else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
 }
 
 function displayApiResults(target) {
@@ -87,9 +94,19 @@ function displayApiResults(target) {
   target.closest('body').find('div.results').removeClass('hidden');
 }
 
+function filterApiData(data) {
+  codeAddress(data);
+  displayEventData(data);
+}
+
+function initializeGoogle () {
+  initializeMap();
+  codeAddress();
+}
+
 $('div.button-nav').on('click', '#approved-events', function (event) {
     event.preventDefault();
-    getDataFromApi(displayEventData, createGeoTags);
+    getDataFromApi(filterApiData);
     displayApiResults($(this));
     initializeMap();
     //marker.setMap(map);
