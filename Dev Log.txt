@@ -77,3 +77,13 @@
 --> switch the date format
 --> remove the T and 24 hours clock format
 --> event_name on top and start_date on the bottom 
+
+-6/28-17-
+(1) Added map markers for event locations to google maps with appropriate error messages
+
+--To Do--
+(1) Add a search function for the Approved Events page
+(2) Find a way to clean up the start_date and end_date values
+--> switch the date format
+--> remove the T and 24 hours clock format
+--> event_name on top and start_date on the bottom 

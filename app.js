@@ -18,12 +18,6 @@ function initializeMap() {
    center: latlng
   }
   state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-  var marker = new google.maps.Marker({
-    position: latlng,
-    map: state.map,
-    title: 'First Marker'
-})
 }
 
 function getDataFromApi(callback) {
@@ -65,7 +59,7 @@ function displayEventData(data) {
 
 function createAddress(data) {
  var results = data.map(function(item, index) {
-    return (item.event_location.substring(0,30) + ', ' + item.event_borough);
+    return (item.event_location.substring(0,40) + ', ' + item.event_borough);
   });
  return results;
 }
@@ -73,19 +67,22 @@ function createAddress(data) {
 function codeAddress(data) {
   var geocoder = new google.maps.Geocoder();
   var address = createAddress(data);
-  for (i=0; i<address.length; i++) {
-    geocoder.geocode( { 'address': address[i]}, function(results, status) {
+  address.forEach(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         var marker = new google.maps.Marker({
             map: state.map,
-            position: results[0].geometry.location
+            position: results[0].geometry.location,
+            title: data[index].event_name
         });
       } 
+      else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+        alert('Sorry, we could not find an address for ' + data[index].event_location + ' with Google maps and can\'t create a marker.');
+      }
       else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
-    });
-  }
+    })
+  })
 }
 
 function displayApiResults(target) {
