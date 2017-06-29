@@ -6,8 +6,8 @@ var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57
 
 var RESULT_HTML_TEMPLATE = (
   '<div class="result-panes">' +
-    '<button class="results-button"><span class="js-event-name"></span><br><span class="js-start-date"></span></button>' +
-    '<div class="results-collapse hidden" id="collapse"><ul><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-type"></li><li class="js-event-agency"></li></ul></div>' +
+    '<button class="results-button"><span class="js-event-name"></span><br><hr><span class="js-event-type"></span></button>' +
+    '<div class="results-collapse hidden" id="collapse"><ul><li class="js-start-date"></li><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-agency"></li></ul></div>' +
   '</div>'
 );
 

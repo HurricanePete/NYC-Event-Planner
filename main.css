@@ -24,7 +24,7 @@ header {
 	width: 61%;
 	position: fixed;
 	max-height: 620px;
-	max-width: 620px;
+	max-width: 540px;
 }
 
 .map {
@@ -37,6 +37,7 @@ header {
 	width: 24%;
 	text-align: center;
 	margin: 0 auto;
+	min-width: 136px;
 }
 
 .button-nav {
@@ -45,9 +46,22 @@ header {
 	margin-bottom: 15px;
 }
 
+.search-wrapper {
+	margin: 0 auto;
+	position: relative;
+	right: 25%;
+	width: 33.333%;
+}
+
 .results-button {
 	width: 100%;
 	margin-bottom: 15px;
+}
+
+.nav {
+	margin: 0 auto;
+	width: 20%;
+	text-align: center;
 }
 
 .js-result-display {
@@ -58,14 +72,12 @@ header {
 	margin-bottom: 0px;
 }
 
-/*@media only screen and (min-width: 1040px) {
+@media only screen and (max-width: 640px) {
+	html{
+		display: block;
+	}
+
 	.map-wrapper {
-		height: 66%;
-		width: 60%;
-		position: fixed;
+		width: 100%;
 	}
-	.map {
-		height: 100%;
-		width: 73%;
-	}
-}*/
+}

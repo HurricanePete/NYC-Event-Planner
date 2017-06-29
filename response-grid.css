@@ -1,3 +1,5 @@
+
+
 * {
 	box-sizing: border-box;
 	font-family: 'Roboto', sans-serif;
@@ -32,11 +34,11 @@
 
 @media only screen and (min-width: 640px) {
 	.col-4 {
-		width: 33.333%;
+		width: 41.666%;
 	}
 
 	.col-8 {
-		width: 66.666%;
+		width: 58.333%;
 	}
 
 	.col-12 {
