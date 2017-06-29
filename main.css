@@ -15,16 +15,17 @@ header {
 	display: none;
 }
 
-.results {
+div.results {
 	border: 2px solid grey;
 	padding: 2.08%;
+	margin-top: 15px;
 }
 .map-wrapper {
 	height: 66%;
 	width: 61%;
-	position: fixed;
 	max-height: 620px;
 	max-width: 540px;
+	padding: 1px;
 }
 
 .map {
@@ -40,7 +41,7 @@ header {
 	min-width: 136px;
 }
 
-.button-nav {
+.page-nav {
 	padding-right: 10%;
 	padding-left: 10%;
 	margin-bottom: 15px;
@@ -70,14 +71,4 @@ header {
 
 .results-button:after {
 	margin-bottom: 0px;
-}
-
-@media only screen and (max-width: 640px) {
-	html{
-		display: block;
-	}
-
-	.map-wrapper {
-		width: 100%;
-	}
 }

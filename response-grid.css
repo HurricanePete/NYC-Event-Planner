@@ -1,5 +1,4 @@
 
-
 * {
 	box-sizing: border-box;
 	font-family: 'Roboto', sans-serif;
@@ -32,17 +31,37 @@
 	width: 100%;
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 620px) {
+	.col-4 {
+		width: 33.333%;
+	}
+	.col-8 {
+		width: 58.333%;
+		height: 620px;
+	}
+	.col-12 {
+		width: 100%;
+	}
+	.map-wrapper {
+		position: fixed;
+	}
+}
+
+@media only screen and (min-width: 1020px) {
 	.col-4 {
 		width: 41.666%;
 	}
 
 	.col-8 {
 		width: 58.333%;
+		height: 620px;
 	}
 
 	.col-12 {
 		width: 100%;
+	}
+	.map-wrapper {
+		position: fixed;
 	}
 }
 
