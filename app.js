@@ -1,5 +1,5 @@
 var state = {
-  map: null
+  map: null,
 }
 
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
@@ -20,14 +20,14 @@ function initializeMap() {
   state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
 
-function getDataFromApi(callback) {
+function getDataFromApi(callback, searchTerm) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
       //'start_date_time': getCurrentDate(),
       '$limit': 10,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      //'$q': searchTerm,
+      '$q': searchTerm,
       '$offset': 0,
       //'$order': "start_date_time"
     },
@@ -106,11 +106,17 @@ $('div.button-nav').on('click', '#approved-events', function (event) {
     getDataFromApi(filterApiData);
     displayApiResults($(this));
     initializeMap();
-    //marker.setMap(map);
     console.log('You did it');
 })
 
 $('div.js-result-display').on('click', '.results-button', function (event) {
   event.preventDefault();
   $(this).closest('div').find('.results-collapse').toggleClass('hidden');
+})
+
+$('.search-wrapper').submit(function(event) {
+  event.preventDefault();
+  var searchTerm = $('#search').val();
+  getDataFromApi(filterApiData, searchTerm);
+  initializeMap();
 })
