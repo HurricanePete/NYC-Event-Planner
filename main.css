@@ -21,10 +21,11 @@ div.results {
 	margin-top: 15px;
 }
 .map-wrapper {
-	height: 66%;
-	width: 61%;
+	height: 400px;
+	width: 100%;
 	max-height: 620px;
 	max-width: 540px;
+	min-width: 540px;
 	padding: 1px;
 }
 
@@ -52,6 +53,7 @@ div.results {
 	position: relative;
 	right: 25%;
 	width: 33.333%;
+	min-width: 260px;
 }
 
 .results-button {

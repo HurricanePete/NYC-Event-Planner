@@ -87,3 +87,16 @@
 --> switch the date format
 --> remove the T and 24 hours clock format
 --> event_name on top and start_date on the bottom 
+
+-6/29/17-
+(1) Added additional style to make the UI more function at smaller screen widths
+
+--To Do--
+(1) Add a search function for the Approved Events page
+(2) Find a way to clean up the start_date and end_date value
+--> switch the date format
+--> remove the T and 24 hours clock format
+--> event_name on top and start_date on the bottom
+(3) Fix right hand side of map at smaller screen width
+(4) fix nav buttons and search input for UI 
+(5) create a function to clear map markers

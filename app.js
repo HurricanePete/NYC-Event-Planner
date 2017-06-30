@@ -114,5 +114,3 @@ $('div.js-result-display').on('click', '.results-button', function (event) {
   event.preventDefault();
   $(this).closest('div').find('.results-collapse').toggleClass('hidden');
 })
-
-$('')
