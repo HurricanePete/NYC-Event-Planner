@@ -1,5 +1,7 @@
 var state = {
   map: null,
+  offset: 0,
+  searchTerm: null
 }
 
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
@@ -11,6 +13,14 @@ var RESULT_HTML_TEMPLATE = (
   '</div>'
 );
 
+function navNext(state) {
+  state.offset + 10;
+}
+
+function nevPrev(state) {
+  state.offset - 10;
+}
+
 function initializeMap() {
   var latlng = new google.maps.LatLng(40.7288, -73.9579);
   var mapOptions = {
@@ -20,15 +30,15 @@ function initializeMap() {
   state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
 
-function getDataFromApi(callback, searchTerm) {
+function getDataFromApi(callback, state) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
       //'start_date_time': getCurrentDate(),
       '$limit': 10,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      '$q': searchTerm,
-      '$offset': 0,
+      '$q': state[searchTerm],
+      '$offset': state[offset],
       //'$order': "start_date_time"
     },
     dataType: 'json',
@@ -58,7 +68,7 @@ function displayEventData(data) {
 }
 
 function createAddress(data) {
- var results = data.map(function(item, index) {
+  var results = data.map(function(item, index) {
     return (item.event_location.substring(0,40) + ', ' + item.event_borough);
   });
  return results;
@@ -116,7 +126,13 @@ $('div.js-result-display').on('click', '.results-button', function (event) {
 
 $('.search-wrapper').submit(function(event) {
   event.preventDefault();
-  var searchTerm = $('#search').val();
-  getDataFromApi(filterApiData, searchTerm);
+  state.searchTerm = $('#search').val();
+  getDataFromApi(filterApiData, state);
+  initializeMap();
+})
+
+$('button.next').mousedown(function(event){
+  event.preventDefault();
+  getDataFromApi(filterApiData, state);
   initializeMap();
 })

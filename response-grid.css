@@ -44,6 +44,7 @@
 	}
 	.map-wrapper {
 		position: fixed;
+		width: 61%;
 	}
 	.submit-buttons {
 		width: 24%;
@@ -69,7 +70,7 @@
 	.map-wrapper {
 		position: fixed;
 		max-width: 630px;
-		width: 80%;
+		width: 53%;
 
 	}
 }
