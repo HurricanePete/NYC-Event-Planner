@@ -13,17 +13,12 @@ var state = {
   searchTerm: null
 }
 
-//var apiCallSettings = {
- 
-//  };
-
-
 function navNext(state) {
-  state.offset += 8;
+  state.offset += 6;
 }
 
 function navPrev(state) {
-  state.offset -= 8;
+  state.offset -= 6;
 }
 
 function initializeMap() {
@@ -40,7 +35,7 @@ function getDataFromApi(callback, state ) {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
       //'start_date_time': getCurrentDate(),
-      '$limit': 8,
+      '$limit': 6,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
       '$offset': state.offset,
       '$q' : state.searchTerm,
@@ -57,8 +52,8 @@ function getDataFromApi(callback, state ) {
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + moment(result.start_date_time, moment.ISO_8601));
-  template.find(".js-end-time").text("Ends: " + result.end_date_time);
+  template.find(".js-start-date").text("Starts: " + moment(result.start_date_time).toString().substring(0,21));
+  template.find(".js-end-time").text("Ends: " + moment(result.end_date_time).toString().substring(0,21));
   template.find(".js-event-loc").text("Location: " + result.event_location);
   template.find(".js-event-borough").text("Borough: " + result.event_borough);
   template.find(".js-event-type").text("Type: " + result.event_type);
@@ -107,6 +102,15 @@ function displayApiResults(target) {
   target.closest('body').find('div.results').removeClass('hidden');
 }
 
+function displayPrev(state, target) {
+  if (state.offset === 0) {
+    target.closest('div').find(".js-nav-prev").addClass('hidden');
+  }
+  else {
+    target.closest('div').find(".js-nav-prev").removeClass('hidden');
+  }
+}
+
 function filterApiData(data) {
   codeAddress(data);
   displayEventData(data);
@@ -141,12 +145,14 @@ $('button.next').mousedown(function(event){
   event.preventDefault();
   navNext(state);
   getDataFromApi(filterApiData, state);
+  displayPrev(state, $(this));
   initializeMap();
 })
 
-$('button.prev').mousedown(function(event){
+$('button.js-nav-prev').mousedown(function(event){
   event.preventDefault();
   navPrev(state);
   getDataFromApi(filterApiData, state);
+  displayPrev(state, $(this));
   initializeMap();
 })
