@@ -52,8 +52,8 @@ function getDataFromApi(callback, state ) {
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + moment(result.start_date_time).toString().substring(0,21));
-  template.find(".js-end-time").text("Ends: " + moment(result.end_date_time).toString().substring(0,21));
+  template.find(".js-start-date").text("Starts: " + Date(result.start_date_time).substring(0,21));
+  template.find(".js-end-time").text("Ends: " + Date(result.end_date_time).substring(0,21));
   template.find(".js-event-loc").text("Location: " + result.event_location);
   template.find(".js-event-borough").text("Borough: " + result.event_borough);
   template.find(".js-event-type").text("Type: " + result.event_type);
