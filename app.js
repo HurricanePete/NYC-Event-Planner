@@ -1,9 +1,3 @@
-var state = {
-  map: null,
-  offset: 0,
-  searchTerm: null
-}
-
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
 
 var RESULT_HTML_TEMPLATE = (
@@ -13,38 +7,50 @@ var RESULT_HTML_TEMPLATE = (
   '</div>'
 );
 
-function navNext(state) {
-  state.offset + 10;
+var state = {
+  map: null,
+  offset: 0,
+  searchTerm: null
 }
 
-function nevPrev(state) {
-  state.offset - 10;
+//var apiCallSettings = {
+ 
+//  };
+
+
+function navNext(state) {
+  state.offset += 8;
+}
+
+function navPrev(state) {
+  state.offset -= 8;
 }
 
 function initializeMap() {
   var latlng = new google.maps.LatLng(40.7288, -73.9579);
   var mapOptions = {
-   zoom: 12,
+   zoom: 11,
    center: latlng
   }
   state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
 
-function getDataFromApi(callback, state) {
+function getDataFromApi(callback, state ) {
   var settings = {
     url: PERMITTED_EVENT_ENDPOINT,
     data: {
       //'start_date_time': getCurrentDate(),
-      '$limit': 10,
+      '$limit': 8,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      '$q': state[searchTerm],
-      '$offset': state[offset],
+      '$offset': state.offset,
+      '$q' : state.searchTerm,
       //'$order': "start_date_time"
     },
     dataType: 'json',
     type: 'GET',
     success: callback
-  };
+  }
+    
   $.ajax(settings);
 }
 
@@ -113,7 +119,7 @@ function initializeGoogle () {
 
 $('div.button-nav').on('click', '#approved-events', function (event) {
     event.preventDefault();
-    getDataFromApi(filterApiData);
+    getDataFromApi(filterApiData, state);
     displayApiResults($(this));
     initializeMap();
     console.log('You did it');
@@ -133,6 +139,14 @@ $('.search-wrapper').submit(function(event) {
 
 $('button.next').mousedown(function(event){
   event.preventDefault();
+  navNext(state);
+  getDataFromApi(filterApiData, state);
+  initializeMap();
+})
+
+$('button.prev').mousedown(function(event){
+  event.preventDefault();
+  navPrev(state);
   getDataFromApi(filterApiData, state);
   initializeMap();
 })
