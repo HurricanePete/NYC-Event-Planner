@@ -2,6 +2,23 @@ var state = {
   map: null
 }
 
+function endpointSwitcher (selection) {
+  switch (selection) {
+  case 1:
+    var API_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
+    break;
+  case 2:
+    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_Playgrounds_001.json'
+    break;
+  case 3: 
+    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_RunningTracks_001.json'
+    break;
+  case 4:
+    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_IceSkating_001.json'  
+  }
+  return API_ENDPOINT;
+}
+
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
 
 var RESULT_HTML_TEMPLATE = (
