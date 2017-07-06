@@ -1,7 +1,7 @@
-<<<<<<< HEAD
-=======
 var state = {
-  map: null
+  map: null,
+  offset: 0,
+  searchTerm: null
 }
 
 function endpointSwitcher (selection) {
@@ -21,7 +21,6 @@ function endpointSwitcher (selection) {
   return API_ENDPOINT;
 }
 
->>>>>>> test-branch
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
 
 var RESULT_HTML_TEMPLATE = (
@@ -30,12 +29,6 @@ var RESULT_HTML_TEMPLATE = (
     '<div class="results-collapse hidden" id="collapse"><ul><li class="js-start-date"></li><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-agency"></li></ul></div>' +
   '</div>'
 );
-
-var state = {
-  map: null,
-  offset: 0,
-  searchTerm: null
-}
 
 function navNext(state) {
   state.offset += 6;
@@ -93,16 +86,22 @@ function displayEventData(data) {
 }
 
 function createAddress(data) {
-  var results = data.map(function(item, index) {
-    return (item.event_location.substring(0,40) + ', ' + item.event_borough);
-  });
- return results;
+  try {
+    var results = data.map(function(item, index) {
+      return (item.event_location.substring(0,40) + ', ' + item.event_borough);
+    });
+  return results;
+  }
+  catch (err) {
+    return;
+  }
 }
 
 function codeAddress(data) {
   var geocoder = new google.maps.Geocoder();
   var address = createAddress(data);
-  address.forEach(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
+  try {
+    address.forEach(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         var marker = new google.maps.Marker({
             map: state.map,
@@ -118,6 +117,10 @@ function codeAddress(data) {
       }
     })
   })
+}
+  catch (err) {
+    return;
+  }
 }
 
 function displayApiResults(target) {
