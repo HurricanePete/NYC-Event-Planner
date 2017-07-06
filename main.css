@@ -28,7 +28,12 @@ div.results {
 	height: 540px;
 	width: 100%;
 	max-height: 620px;
+<<<<<<< HEAD
 	padding: 5px;
+=======
+	max-width: 760px;
+	padding: 1px;
+>>>>>>> test-branch
 }
 
 .map {
