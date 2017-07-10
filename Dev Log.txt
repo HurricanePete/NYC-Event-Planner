@@ -100,3 +100,11 @@
 (3) Fix right hand side of map at smaller screen width
 (4) fix nav buttons and search input for UI 
 (5) create a function to clear map markers
+
+-7/9/17-
+(1) Gutted most features and changed the API endpoint to map public bathroom
+
+--To Do--
+(1) Fix API call so that it will work if All boroughs are selected
+(2) Set map as main feature for results display
+(3) Check using infowindows for results display --> https://developers.google.com/maps/documentation/javascript/infowindows

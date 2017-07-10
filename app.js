@@ -2,62 +2,31 @@ var state = {
   map: null,
   offset: 0,
   searchTerm: null,
-  currentApiData: null
+  borough: null,
+  savedResults: []
 }
 
-function endpointSwitcher (selection) {
-  switch (selection) {
-  case 1:
-    var API_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
-    break;
-  case 2:
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_Playgrounds_001.json'
-    break;
-  case 3: 
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_RunningTracks_001.json'
-    break;
-  case 4:
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_IceSkating_001.json'  
-  }
-  return API_ENDPOINT;
-}
-
-var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
+var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
 
 var RESULT_HTML_TEMPLATE = (
-  '<div class="result-panes">' +
-    '<button class="results-button"><span class="js-event-name"></span><br><hr><span class="js-event-type"></span></button>' +
-    '<div class="results-collapse hidden" id="collapse"><ul><li class="js-start-date"></li><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-agency"></li></ul></div>' +
-  '</div>'
+	'<div class="br-results"' +
+	'<div><h3 class="js-br-title"></h3></div>' + 
+	'<div><p class="js-br-comment></p><br>' + 
+	'<p class="js-br-open"></p><br>' + 
+	'<p class="js-br-borough"></p><br>' +
+	'<p class="js-br-location"</p><br>' +
+	'<img class="js-handicap hidden" src="handicap.jpg">' +
+	'</div>'
 );
 
-function navNext(state) {
-  state.offset += 6;
-}
-
-function navPrev(state) {
-  state.offset -= 6;
-}
-
-function initializeMap() {
-  var latlng = new google.maps.LatLng(40.7288, -73.9579);
-  var mapOptions = {
-   zoom: 10,
-   center: latlng
-  }
-  state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-}
-
-function getDataFromApi(callback, state ) {
+function getDataFromApi(callback, state) {
   var settings = {
-    url: PERMITTED_EVENT_ENDPOINT,
+    url: PUBLIC_RESTROOMS_ENDPOINT,
     data: {
-      //'start_date_time': getCurrentDate(),
-      '$limit': 6,
       '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      '$offset': state.offset,
+      'borough': state.borough,
+      '$limit': 20,
       '$q' : state.searchTerm,
-      //'$order': "start_date_time"
     },
     dataType: 'json',
     type: 'GET',
@@ -67,70 +36,33 @@ function getDataFromApi(callback, state ) {
   $.ajax(settings);
 }
 
-//function to fetch and store this data as an array within the state object
-$.get('playgrounds.txt', function(data, state) {
-  state.currentApiData = data;
-})
-
-function storeApiData(data, state) {
-  state.currentApiData = data;
+function setSavedResults(data, state) {
+	state.savedResults = data;
+	console.log(data);
+	//displayBrData(state);
 }
 
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
-  template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + Date(result.start_date_time).substring(0,21));
-  template.find(".js-end-time").text("Ends: " + Date(result.end_date_time).substring(0,21));
-  template.find(".js-event-loc").text("Location: " + result.event_location);
-  template.find(".js-event-borough").text("Borough: " + result.event_borough);
-  template.find(".js-event-type").text("Type: " + result.event_type);
-  template.find(".js-event-agency").text("Agency: " + result.event_agency);
+  template.find(".js-br-title").text(result.name);
+  template.find(".js-br-comments").text(result.comments);
+  template.find(".js-br-open").text(result.open_year_round);
+  template.find(".js-br-borough").text(result.borough);
+  template.find(".js-br-location").text(result.location);
+  if (result.handicap_accessible == 'Yes') {
+  	template.find(".js-handicap").removeClass("hidden");
+  }
+  else {
+  	return;
+  }
   return template;
 }
 
-function displayEventData(data) {
-  var results = data.map(function(item, index) {
-    return renderResult(item);
-  });
+function displayBrData(data) {
+	var results = data.map(function(item, index) {
+    	return renderResult(item);
+  	});
   $('.js-result-display').html(results);
-}
-
-function createAddress(data) {
-  try {
-    var results = data.map(function(item, index) {
-      return (item.event_location.substring(0,40) + ', ' + item.event_borough);
-    });
-    return results;
-  }
-  catch (err) {
-    return;
-  }
-}
-
-function codeAddress(data) {
-  var geocoder = new google.maps.Geocoder();
-  var address = createAddress(data);
-  try {
-    address.forEach(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var marker = new google.maps.Marker({
-            map: state.map,
-            position: results[0].geometry.location,
-            title: data[index].event_name
-        });
-      } 
-      else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-        alert('Sorry, we could not find an address for ' + data[index].event_location + ' with Google maps and can\'t create a marker.');
-      }
-      else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    })
-  })
-  }
-  catch (err) {
-    return;
-  }
 }
 
 function displayApiResults(target) {
@@ -139,63 +71,10 @@ function displayApiResults(target) {
   target.closest('body').find('div.results').removeClass('hidden');
 }
 
-function displayPrev(state, target) {
-  if (state.offset === 0) {
-    target.closest('div').find(".js-nav-prev").addClass('hidden');
-  }
-  else {
-    target.closest('div').find(".js-nav-prev").removeClass('hidden');
-  }
-}
-
-function filterApiData(data) {
-  codeAddress(data);
-  displayEventData(data);
-}
-
-function initializeGoogle () {
-  initializeMap();
-  codeAddress();
-}
-
-$('div.button-nav').on('click', '#approved-events', function (event) {
-  event.preventDefault();
-  getDataFromApi(filterApiData, state);
-  displayApiResults($(this));
-  initializeMap();
-  console.log('You did it');
-})
-
-$('div.button-nav').on('click', '#playgrounds', function (event) {
-  event.preventDefault();
-  textDataFromApi(storeApiData, 2);
-  console.log('Success');
-})
-
-$('div.js-result-display').on('click', '.results-button', function (event) {
-  event.preventDefault();
-  $(this).closest('div').find('.results-collapse').toggleClass('hidden');
-})
-
-$('.search-wrapper').submit(function(event) {
+$('form').submit(function(event) {
   event.preventDefault();
   state.searchTerm = $('#search').val();
-  getDataFromApi(filterApiData, state);
-  initializeMap();
-})
-
-$('button.next').mousedown(function(event){
-  event.preventDefault();
-  navNext(state);
-  getDataFromApi(filterApiData, state);
-  displayPrev(state, $(this));
-  initializeMap();
-})
-
-$('button.js-nav-prev').mousedown(function(event){
-  event.preventDefault();
-  navPrev(state);
-  getDataFromApi(filterApiData, state);
-  displayPrev(state, $(this));
-  initializeMap();
+  state.borough = $('input[name="borough"]:checked').val();
+  getDataFromApi(displayBrData, state);
+  displayApiResults($(this));
 })

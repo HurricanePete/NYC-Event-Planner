@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Borough Guide</title>
+	<title>When You Have to Go</title>
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<link rel="stylesheet" type="text/css" href="response-grid.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
@@ -14,28 +14,35 @@
 		<header class="title">
 			<div class="row">
 				<div class="col-12">
-					<h2>Borough Guide</h2>
-					<h3>Explore the various amenities and events around the five boroughs of New York</h3>
+					<h2>Borough Public Bathroom Guide</h2>
+					<h3>For when you're out and there's no Starbucks in sight...</h3>
 				</div>
 			</div>
 		</header>
 		<div class="row">
-			<div class="col-12">
-				<div class="button-nav">
-					<button class="submit-buttons" type="submit" id="playgrounds">Playgrounds</button>
-					<button class="submit-buttons" type="submit" id="tracks">Tracks</button>
-					<button class="submit-buttons" type="submit" id="ice-rinks">Ice Rinks</button>
-					<button class="submit-buttons" type="submit" id="approved-events">Approved Events</button>
-				</div>		
-			</div>
+			<form class="col-12">
+				<fieldset>
+					<legend>Where do you need to go?</legend>
+					<input placeholder=" Central Park" id="search" type="text" name="search-bar">
+					<button id="search-submit" type="submit">Submit</button><br>
+					<div class="radios">
+						<div class="radio-set">
+							<input type="radio" name="borough" value="Manhattan"> Manhattan
+							<input type="radio" name="borough" value="Brooklyn"> Brooklyn
+						</div>
+						<div class="radio-set">
+							<input type="radio" name="borough" value="Queens"> Queens
+							<input type="radio" name="borough" value="Bronx"> Bronx
+						</div>
+						<div class="radio-set">
+							<input type="radio" name="borough" value="Staten Island"> Staten Island
+							<input type="radio" name="borough" value="" checked> All
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 		<div class="row results hidden">
-			<div class="col-12">
-				<form class="search-wrapper">
-					<input placeholder="Pilates" id="search" type="text" name="search-bar">
-					<button id="search-submit" type="submit">Search</button>
-				</form>
-			</div>
 			<div class="col-4">
 				<div class="js-result-display"></div>
 				<div class="nav-wrapper">
@@ -50,7 +57,7 @@
 			</div>	
 		</div>
 	</main>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVNbQlwhKLMfETuLv_1JFmyVHiBaoQRBw&callback=initializeGoogle"></script>
+<!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVNbQlwhKLMfETuLv_1JFmyVHiBaoQRBw&callback=initializeGoogle"></script>-->
 <script type="text/javascript" src="app.js"></script>
 </body>
 </html>

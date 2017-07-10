@@ -5,11 +5,7 @@
 }
 
 .row {
-<<<<<<< HEAD
-	max-width: 1200px;
-=======
 	max-width: 1920px;
->>>>>>> test-branch
 	padding-left: 20px;
 	padding-right: 20px;
 	margin: 0 auto;
@@ -52,9 +48,6 @@
 	}
 	.submit-buttons {
 		width: 24%;
-	}
-	.search-wrapper {
-		text-align: left;
 	}
 }
 

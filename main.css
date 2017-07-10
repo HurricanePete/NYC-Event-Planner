@@ -15,9 +15,28 @@ header {
 	display: none;
 }
 
-.button-nav {
+fieldset {
+	width: 100%;
 	margin: 0 auto;
+	text-align: center;
 }
+
+div.radios {
+	display: block;
+	width: 33.333%;
+	margin: 0 auto;
+	text-align: left;
+}
+
+div.radio-set {
+	display: block;
+}
+
+input[type="radio"] {
+	margin: 5px 0px 5px 5px;
+	text-align: left;
+}
+
 
 div.results {
 	border: 2px solid grey;
@@ -28,26 +47,14 @@ div.results {
 	height: 540px;
 	width: 100%;
 	max-height: 620px;
-<<<<<<< HEAD
 	padding: 5px;
-=======
 	max-width: 760px;
-	padding: 1px;
->>>>>>> test-branch
 }
 
 .map {
     height: 100%;
     margin: 0 auto;
     padding: 0px;
-}
-
-.submit-buttons {
-	width: 50%;
-	text-align: center;
-	margin: 0 auto;
-	min-width: 136px;
-	margin-bottom: 5px;
 }
 
 .page-nav {
