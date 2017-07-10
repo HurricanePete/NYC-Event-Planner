@@ -7,6 +7,10 @@ header {
 	text-align: center;
 }
 
+p {
+	margin: 0 auto;
+}
+
 .title {
 	width: 100%;
 }
@@ -29,7 +33,7 @@ div.radios {
 }
 
 div.radio-set {
-	display: block;
+	display: inline-block;
 }
 
 input[type="radio"] {
@@ -37,30 +41,32 @@ input[type="radio"] {
 	text-align: left;
 }
 
+.js-handicap, .js-no-handicap {
+	width: 25px;
+	height: 25px;
+	border-radius: 100%;
+}
+
+.br-results {
+	border: 1px solid grey;
+}
 
 div.results {
 	border: 2px solid grey;
 	padding: 2.08%;
 	margin-top: 15px;
+	height: 100%;
 }
 .map-wrapper {
-	height: 540px;
+	height: 600px;
 	width: 100%;
-	max-height: 620px;
 	padding: 5px;
-	max-width: 760px;
 }
 
 .map {
     height: 100%;
     margin: 0 auto;
     padding: 0px;
-}
-
-.page-nav {
-	padding-right: 10%;
-	padding-left: 10%;
-	margin-bottom: 15px;
 }
 
 .search-wrapper {
@@ -77,15 +83,6 @@ div.results {
 .results-button {
 	width: 100%;
 	margin-bottom: 15px;
-}
-
-.nav {
-	width: 25%;
-}
-
-.nav-wrapper {
-	margin: 0 auto;
-	text-align: center;
 }
 
 .js-result-display {

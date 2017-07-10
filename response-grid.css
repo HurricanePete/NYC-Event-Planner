@@ -31,26 +31,6 @@
 	width: 100%;
 }
 
-@media only screen and (min-width: 620px) {
-	.col-4 {
-		width: 33.333%;
-	}
-	.col-8 {
-		width: 58.333%;
-		height: 620px;
-	}
-	.col-12 {
-		width: 100%;
-	}
-	.map-wrapper {
-		position: fixed;
-		width: 61%;
-	}
-	.submit-buttons {
-		width: 24%;
-	}
-}
-
 @media only screen and (min-width: 1020px) {
 	.col-4 {
 		width: 41.666%;
@@ -65,10 +45,16 @@
 		width: 100%;
 	}
 	.map-wrapper {
-		position: fixed;
-		max-width: 630px;
-		width: 53%;
+		width: 100%;
+		height: 1000px;
 
 	}
+	div.radio-set {
+	display: block;
+}
+}
+
+@media only screen and (min-height: 375px) {
+
 }
 
