@@ -26,24 +26,18 @@
 					<input placeholder=" Central Park" id="search" type="text" name="search-bar">
 					<button id="search-submit" type="submit">Submit</button><br>
 					<div class="radios">
-						<div class="radio-set">
 							<input type="radio" name="borough" value="Manhattan"> Manhattan
 							<input type="radio" name="borough" value="Brooklyn"> Brooklyn
-						</div>
-						<div class="radio-set">
 							<input type="radio" name="borough" value="Queens"> Queens
-							<input type="radio" name="borough" value="Bronx"> Bronx
-						</div>
-						<div class="radio-set">
 							<input type="radio" name="borough" value="Staten Island"> Staten Island
 							<input type="radio" name="borough" value="" checked> All
-						</div>
 					</div>
 				</fieldset>
 			</form>
 		</div>
 		<div class="row results hidden">
 			<div class="col-12">
+				<div class="js-result-display"></div>
 				<div class="map-wrapper">
 					<div class="map" id="map"></div>
 				</div>

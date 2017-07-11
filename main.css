@@ -27,9 +27,9 @@ fieldset {
 
 div.radios {
 	display: block;
-	width: 33.333%;
+	width: 45%;
 	margin: 0 auto;
-	text-align: left;
+	text-align: center;
 }
 
 div.radio-set {

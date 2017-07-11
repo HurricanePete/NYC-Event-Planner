@@ -4,8 +4,8 @@ var state = {
   savedOffset: 0,
   searchTerm: null,
   borough: null,
-  savedResults: [],
-  geocodeResults: []
+  savedResults: null,
+  geocodeResults: null
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
@@ -120,29 +120,24 @@ function getDataFromApi(callback, state) {
 }
 
 function createAddress(state) {
-  try {
-    var results = state.savedResults.map(function(item, index) {
-      return (item.name + ', New York');
-    });
-    return results;
-  }
-  catch (err) {
-    return;
-  }
+  var results = state[savedResults].map(function(item, index) {
+    return (item.name + ', New York');
+  });
+  return results;
 }
 
 function codeAddress(state) {
 	var geocoder = new google.maps.Geocoder();
 	var address = createAddress(state);
-	state.geocodeResults = address.map(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
-   		if (status == google.maps.GeocoderStatus.OK) {
-   			console.log("success")
-   		}
-   		else {
-   			console.log("fail" + item)
-      		}
-		})
-	})
+  for (i=0; i < address.length; i++) {
+    state[geocodeResults].push(geocoder.geocode(address[i]));
+    if (status == google.maps.GeocoderStatus.OK) {
+   	  console.log("success")
+   	}
+   	else {
+   	  console.log("fail " + item)
+    }
+  }
 }
 
 function renderResult(result) {
@@ -185,7 +180,7 @@ function createMapMarkers(state) {
 
 function initializeGoogle () {
   initializeMap(state);
-  codeAddress(state);
+  //codeAddress(state);
 }
 
 function displayApiResults(target) {
@@ -196,16 +191,16 @@ function displayApiResults(target) {
 
 $(document).ready(function(){
 	initializeMap(state);
-})
+});
 
 $('form').submit(function(event) {
   event.preventDefault();
   state.searchTerm = $('#search').val();
   state.borough = $('input[name="borough"]:checked').val();
   getDataFromApi(displayBrData, state);
+  initializeMap(state);
   displayApiResults($(this));
   codeAddress(state);
   createMapMarkers(state);
-  initializeMap(state);
   google.maps.event.trigger(map, "resize");
-})
+});
