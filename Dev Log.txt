@@ -108,3 +108,15 @@
 (1) Fix API call so that it will work if All boroughs are selected
 (2) Set map as main feature for results display
 (3) Check using infowindows for results display --> https://developers.google.com/maps/documentation/javascript/infowindows
+
+-7/12-17
+(1) Revamp of key features again
+-removed map
+-results now display as tiles with relevant info
+(2) Unused code added to gutted_code.js for preservation 
+- possible use for later features
+
+--To Do--
+(1) Alter styling to create a uniform tyling of results
+(2) Add Next and Previous buttons to navigate results
+(3) Add function to insert link to google maps for location selected
