@@ -11,15 +11,16 @@ var state = {
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
 
 var RESULT_HTML_TEMPLATE = (
+  '<div class="col-4">'+
 	'<div class="br-results">' +
 	'<div><h3 class="js-br-title"></h3></div>' + 
-	'<div><p class="js-br-comment"></p><br>' + 
+	'<div><p class="js-br-comment hidden"></p><br>' + 
 	'<p class="js-br-open"></p><br>' + 
 	'<p class="js-br-borough"></p><br>' +
 	'<p class="js-br-location"></p><br>' +
 	'<img class="js-handicap hidden" src="handicap.jpg">' +
 	'<img class="js-no-handicap hidden" src="nohandicap.jpg">' +
-	'</div>'
+	'</div></div>'
 );
 
 var RESULT_FAILURE_TEMPLATE = (
@@ -28,63 +29,6 @@ var RESULT_FAILURE_TEMPLATE = (
 	'<h4>Hold for a bit longer and try a different search or different borough</h4>' +
 	'</div>'
 	)
-
-function setSavedResults (data) {
-	state.savedResults = data;
-}
-
-function pickMapCenter (state) {
-	var mapOptions = null;
-	try {
-		switch (state.borough) {
-			case "Staten Island":
-				mapOptions = {
-					zoom: 13,
-					center: new google.maps.LatLng(40.580725, -74.152862)
-				}
-				break;
-			case "Brooklyn":
-				mapOptions = {
-					zoom: 13,
-					center: new google.maps.LatLng(40.654559, -73.930133)
-				}
-				break;
-			case "Manhattan":
-				mapOptions = {
-					zoom: 13,
-					center: new google.maps.LatLng(40.779812, -73.966761)
-				}
-				break;
-			case "Bronx":
-				mapOptions = {
-					zoom: 13,
-					center: new google.maps.LatLng(40.853882, -73.877219)
-				}
-				break;
-			case "Queens":
-				mapOptions = {
-					zoom: 13,
-					center: new google.maps.LatLng(40.746069, -73.846646)
-				}
-				break;
-			default:
-				mapOptions = {
-					zoom: 12,
-					center: new google.maps.LatLng(40.707149, -74.012314)
-				} 		
-		}
-		return mapOptions;
-	}
-	catch (err) {
-		console.log("switch failure");
-		return;
-	}
-}
-
-function initializeMap(state) {
-	var mapOptions = pickMapCenter(state);
-	state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-}
 
 function getDataFromApi(callback, state) {
   if (state.borough === "") {
@@ -119,6 +63,7 @@ function getDataFromApi(callback, state) {
   $.ajax(settings);
 }
 
+//convert this to add a link to google maps with the address of the bathroom
 function createAddress(state) {
   var results = state[savedResults].map(function(item, index) {
     return (item.name + ', New York');
@@ -126,17 +71,9 @@ function createAddress(state) {
   return results;
 }
 
-function codeAddress(state) {
-	var geocoder = new google.maps.Geocoder();
-	var address = createAddress(state);
-  for (i=0; i < address.length; i++) {
-    state[geocodeResults].push(geocoder.geocode(address[i]));
-    if (status == google.maps.GeocoderStatus.OK) {
-   	  console.log("success")
-   	}
-   	else {
-   	  console.log("fail " + item)
-    }
+function hideBlanks (target, template, jsClass) {
+  if (target !== undefined) {
+    template.find(jsClass).removeClass("hidden");
   }
 }
 
@@ -144,21 +81,22 @@ function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-br-title").text(result.name);
   template.find(".js-br-comment").text(result.comments);
+  hideBlanks(result.comments, template, ".js-br-comment");
   template.find(".js-br-open").text("Open Year Round: " + result.open_year_round);
+  hideBlanks(result.open_year_round, template, ".js-br-open");
   template.find(".js-br-borough").text(result.borough);
   template.find(".js-br-location").text(result.location);
   if (result.handicap_accessible === 'Yes') {
   	template.find(".js-handicap").removeClass("hidden");
   }
   if (result.handicap_accessible === undefined) {
-  	template.find(".js-no-handicap").removeClass("hidden");
+    template.find(".js-no-handicap").removeClass("hidden");
   }
   return template;
 }
 
 function displayBrData(data) {
 	if (data[0] != null) {
-		setSavedResults(data);
 		var results = data.map(function(item, index) {
     		return renderResult(item);
     	})
@@ -169,19 +107,6 @@ function displayBrData(data) {
 	$('.js-result-display').html(results);
 }
 
-function createMapMarkers(state) {
-	for (i=0; i<10; i++) {
-		var marker = new google.maps.Marker({
-			position: state.geocodeResults[i],
-		});
-		marker.setMap(state.map);
-	}
-}
-
-function initializeGoogle () {
-  initializeMap(state);
-  //codeAddress(state);
-}
 
 function displayApiResults(target) {
   target.closest('body').find('div.map').removeClass('hidden');
@@ -189,18 +114,10 @@ function displayApiResults(target) {
   target.closest('body').find('div.results').removeClass('hidden');
 }
 
-$(document).ready(function(){
-	initializeMap(state);
-});
-
 $('form').submit(function(event) {
   event.preventDefault();
   state.searchTerm = $('#search').val();
   state.borough = $('input[name="borough"]:checked').val();
   getDataFromApi(displayBrData, state);
-  initializeMap(state);
   displayApiResults($(this));
-  codeAddress(state);
-  createMapMarkers(state);
-  google.maps.event.trigger(map, "resize");
 });

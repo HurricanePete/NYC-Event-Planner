@@ -11,6 +11,10 @@ p {
 	margin: 0 auto;
 }
 
+h3 {
+	margin: 0 auto;
+}
+
 .title {
 	width: 100%;
 }
@@ -49,6 +53,9 @@ input[type="radio"] {
 
 .br-results {
 	border: 1px solid grey;
+	margin-bottom: 5px;
+	height: 12%;
+	padding: 5px;
 }
 
 div.results {
