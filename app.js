@@ -1,11 +1,9 @@
 var state = {
   map: null,
   offset: 0,
-  savedOffset: 0,
   searchTerm: null,
   borough: null,
   savedResults: null,
-  geocodeResults: null
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
@@ -15,12 +13,12 @@ var RESULT_HTML_TEMPLATE = (
 	'<div class="br-results">' +
 	'<div><h3 class="js-br-title"></h3></div>' + 
 	'<div><p class="js-br-comment hidden"></p><br>' + 
-	'<p class="js-br-open"></p><br>' + 
+	'<p class="js-br-open hidden"></p><br>' + 
 	'<p class="js-br-borough"></p><br>' +
 	'<p class="js-br-location"></p><br>' +
 	'<img class="js-handicap hidden" src="handicap.jpg">' +
 	'<img class="js-no-handicap hidden" src="nohandicap.jpg">' +
-	'</div></div>'
+	'</div></div></div>'
 );
 
 var RESULT_FAILURE_TEMPLATE = (
@@ -109,7 +107,6 @@ function displayBrData(data) {
 
 
 function displayApiResults(target) {
-  target.closest('body').find('div.map').removeClass('hidden');
   target.closest('body').find('div.result-display').removeClass('hidden');
   target.closest('body').find('div.results').removeClass('hidden');
 }

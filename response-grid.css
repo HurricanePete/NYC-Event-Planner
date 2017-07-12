@@ -36,6 +36,9 @@
 	.col-4 {
 		width: 50%;
 	}
+	div.radios {
+		width: 100%;
+	}
 }
 
 @media only screen and (min-width: 1020px) {
