@@ -1,6 +1,7 @@
 var state = {
   map: null,
   offset: 0,
+<<<<<<< HEAD
   searchTerm: null
 }
 
@@ -22,50 +23,91 @@ function endpointSwitcher (selection) {
 }
 
 var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
+=======
+  searchTerm: null,
+  borough: null,
+  savedResults: null,
+}
+
+var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
+>>>>>>> test-branch
 
 var RESULT_HTML_TEMPLATE = (
-  '<div class="result-panes">' +
-    '<button class="results-button"><span class="js-event-name"></span><br><hr><span class="js-event-type"></span></button>' +
-    '<div class="results-collapse hidden" id="collapse"><ul><li class="js-start-date"></li><li class="js-end-time"></li><li class="js-event-loc"></li><li class="js-event-borough"></li><li class="js-event-agency"></li></ul></div>' +
-  '</div>'
+  '<div class="col-4">'+
+	'<div class="br-results">' +
+	'<div><h3 class="js-br-title"></h3></div>' + 
+	'<div><p class="js-br-comment hidden"></p><br>' + 
+	'<p class="js-br-open hidden"></p><br>' + 
+	'<p class="js-br-borough"></p><br>' +
+	'<p class="js-br-location"></p><br>' +
+	'<img class="js-handicap hidden" src="handicap.jpg">' +
+	'<img class="js-no-handicap hidden" src="nohandicap.jpg">' +
+	'</div></div></div>'
 );
 
+<<<<<<< HEAD
 function navNext(state) {
   state.offset += 6;
+=======
+var RESULT_FAILURE_TEMPLATE = (
+	'<div class="br-results">' +
+	'<h3>Oops, there\'s nothing here</h3>' +
+	'<h4>Hold for a bit longer and try a different search or different borough</h4>' +
+	'</div>'
+	)
+
+function offsetNavNext (state) {
+  state.offset += 12;
+>>>>>>> test-branch
 }
 
-function navPrev(state) {
-  state.offset -= 6;
+function offsetNavPrev (state) {
+  state.offset -= 12;
 }
 
-function initializeMap() {
-  var latlng = new google.maps.LatLng(40.7288, -73.9579);
-  var mapOptions = {
-   zoom: 11,
-   center: latlng
+function displayPrev(state, target) {
+  if (state.offset === 0) {
+    target.closest('div').find(".js-prev").addClass('hidden');
   }
-  state.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  else {
+    target.closest('div').find(".js-prev").removeClass('hidden');
+  }
 }
 
-function getDataFromApi(callback, state ) {
-  var settings = {
-    url: PERMITTED_EVENT_ENDPOINT,
-    data: {
-      //'start_date_time': getCurrentDate(),
-      '$limit': 6,
-      '$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      '$offset': state.offset,
-      '$q' : state.searchTerm,
-      //'$order': "start_date_time"
-    },
-    dataType: 'json',
-    type: 'GET',
-    success: callback
+function getDataFromApi(callback, state) {
+  if (state.borough === "") {
+  	var settings = {
+    	url: PUBLIC_RESTROOMS_ENDPOINT,
+    	data: {
+      	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
+      	'$limit': 12,
+      	'$offset': state.offset,
+      	'$q' : state.searchTerm,
+    	},
+    	dataType: 'json',
+    	type: 'GET',
+    	success: callback
+  	}
   }
-    
+  else {
+  	var settings = {
+    	url: PUBLIC_RESTROOMS_ENDPOINT,
+    	data: {
+      	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
+      	'$limit': 12,
+      	'$offset': state.offset,
+      	'borough': state.borough,
+      	'$q' : state.searchTerm,
+    	},
+    	dataType: 'json',
+    	type: 'GET',
+    	success: callback
+  	}
+  }
   $.ajax(settings);
 }
 
+<<<<<<< HEAD
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-event-name").text("Event Name: " + result.event_name);
@@ -123,63 +165,74 @@ function codeAddress(data) {
   }
 }
 
+//convert this to add a link to google maps with the address of the bathroom
+function createAddress(state) {
+  var results = state[savedResults].map(function(item, index) {
+    return (item.name + ', New York');
+  });
+  return results;
+}
+
+function hideBlanks (target, template, jsClass) {
+  if (target !== undefined) {
+    template.find(jsClass).removeClass("hidden");
+  }
+}
+
+function renderResult(result) {
+  var template = $(RESULT_HTML_TEMPLATE);
+  template.find(".js-br-title").text(result.name);
+  template.find(".js-br-comment").text(result.comments);
+  hideBlanks(result.comments, template, ".js-br-comment");
+  template.find(".js-br-open").text("Open Year Round: " + result.open_year_round);
+  hideBlanks(result.open_year_round, template, ".js-br-open");
+  template.find(".js-br-borough").text(result.borough);
+  template.find(".js-br-location").text(result.location);
+  if (result.handicap_accessible === 'Yes') {
+  	template.find(".js-handicap").removeClass("hidden");
+  }
+  if (result.handicap_accessible === undefined) {
+    template.find(".js-no-handicap").removeClass("hidden");
+  }
+  return template;
+}
+
+function displayBrData(data) {
+	if (data[0] != null) {
+		var results = data.map(function(item, index) {
+    		return renderResult(item);
+    	})
+    }
+	else {
+		var results = RESULT_FAILURE_TEMPLATE;
+	}
+	$('.js-result-display').html(results);
+}
+
+
 function displayApiResults(target) {
-  target.closest('body').find('div.map').removeClass('hidden');
   target.closest('body').find('div.result-display').removeClass('hidden');
   target.closest('body').find('div.results').removeClass('hidden');
 }
 
-function displayPrev(state, target) {
-  if (state.offset === 0) {
-    target.closest('div').find(".js-nav-prev").addClass('hidden');
-  }
-  else {
-    target.closest('div').find(".js-nav-prev").removeClass('hidden');
-  }
-}
-
-function filterApiData(data) {
-  codeAddress(data);
-  displayEventData(data);
-}
-
-function initializeGoogle () {
-  initializeMap();
-  codeAddress();
-}
-
-$('div.button-nav').on('click', '#approved-events', function (event) {
-    event.preventDefault();
-    getDataFromApi(filterApiData, state);
-    displayApiResults($(this));
-    initializeMap();
-    console.log('You did it');
-})
-
-$('div.js-result-display').on('click', '.results-button', function (event) {
-  event.preventDefault();
-  $(this).closest('div').find('.results-collapse').toggleClass('hidden');
-})
-
-$('.search-wrapper').submit(function(event) {
+$('form').submit(function(event) {
   event.preventDefault();
   state.searchTerm = $('#search').val();
-  getDataFromApi(filterApiData, state);
-  initializeMap();
-})
+  state.borough = $('input[name="borough"]:checked').val();
+  getDataFromApi(displayBrData, state);
+  displayApiResults($(this));
+});
 
 $('button.next').mousedown(function(event){
   event.preventDefault();
-  navNext(state);
-  getDataFromApi(filterApiData, state);
+  offsetNavNext(state);
+  getDataFromApi(displayBrData, state);
   displayPrev(state, $(this));
-  initializeMap();
 })
 
-$('button.js-nav-prev').mousedown(function(event){
+$('button.js-prev').mousedown(function(event){
   event.preventDefault();
-  navPrev(state);
-  getDataFromApi(filterApiData, state);
+  offsetNavPrev(state);
+  getDataFromApi(displayBrData, state);
   displayPrev(state, $(this));
-  initializeMap();
 })

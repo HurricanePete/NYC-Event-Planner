@@ -7,6 +7,14 @@ header {
 	text-align: center;
 }
 
+p {
+	margin: 0 auto;
+}
+
+h3 {
+	margin: 0 auto;
+}
+
 .title {
 	width: 100%;
 }
@@ -15,45 +23,43 @@ header {
 	display: none;
 }
 
-.button-nav {
+fieldset {
+	width: 100%;
 	margin: 0 auto;
+	text-align: center;
+}
+
+div.radios {
+	display: block;
+	width: 45%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+span {
+	display: inline-block;
+}
+
+div.radio-set {
+	display: inline-block;
+}
+
+input[type="radio"] {
+	margin: 5px 0px 5px 5px;
+	text-align: left;
+}
+
+.js-handicap, .js-no-handicap {
+	width: 25px;
+	height: 25px;
+	border-radius: 100%;
 }
 
 div.results {
 	border: 2px solid grey;
 	padding: 2.08%;
 	margin-top: 15px;
-}
-.map-wrapper {
-	height: 540px;
-	width: 100%;
-	max-height: 620px;
-<<<<<<< HEAD
-	padding: 5px;
-=======
-	max-width: 760px;
-	padding: 1px;
->>>>>>> test-branch
-}
-
-.map {
-    height: 100%;
-    margin: 0 auto;
-    padding: 0px;
-}
-
-.submit-buttons {
-	width: 50%;
-	text-align: center;
-	margin: 0 auto;
-	min-width: 136px;
-	margin-bottom: 5px;
-}
-
-.page-nav {
-	padding-right: 10%;
-	padding-left: 10%;
-	margin-bottom: 15px;
+	height: 100%;
 }
 
 .search-wrapper {
@@ -67,24 +73,34 @@ div.results {
 	width: 66.666%;
 }
 
-.results-button {
-	width: 100%;
-	margin-bottom: 15px;
-}
-
-.nav {
-	width: 25%;
-}
-
-.nav-wrapper {
-	margin: 0 auto;
-	text-align: center;
-}
-
 .js-result-display {
 	padding: 5px;
 }
 
-.results-button:after {
-	margin-bottom: 0px;
+.result-col {
+	margin-bottom: 10px;
+}
+
+.br-results {
+	border: 2px outset grey;
+	margin-bottom: 5px;
+	padding: 5px;
+	height: 200px;
+	box-shadow: 3px 3px 3px black;
+	text-align: center;
+}
+
+.br-results:hover {
+	box-shadow: 0px 0px 0px black;
+}
+
+.results-nav {
+	margin: 0 auto;
+	text-align: center;
+}
+
+button.js-prev, button.next {
+	margin: 0 auto;
+	text-align: center;
+	width: 25%;
 }

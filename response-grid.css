@@ -5,11 +5,7 @@
 }
 
 .row {
-<<<<<<< HEAD
-	max-width: 1200px;
-=======
 	max-width: 1920px;
->>>>>>> test-branch
 	padding-left: 20px;
 	padding-right: 20px;
 	margin: 0 auto;
@@ -29,6 +25,7 @@
 	float: left;
 	padding-left: 1.04166666%;
 	padding-right: 1.04166666%;
+	display: inline-block;
 }
 
 .col-12, .col-4, .col-8 {
@@ -37,45 +34,26 @@
 
 @media only screen and (min-width: 620px) {
 	.col-4 {
-		width: 33.333%;
+		width: 50%;
 	}
-	.col-8 {
-		width: 58.333%;
-		height: 620px;
-	}
-	.col-12 {
+	div.radios {
 		width: 100%;
-	}
-	.map-wrapper {
-		position: fixed;
-		width: 61%;
-	}
-	.submit-buttons {
-		width: 24%;
-	}
-	.search-wrapper {
-		text-align: left;
 	}
 }
 
 @media only screen and (min-width: 1020px) {
 	.col-4 {
-		width: 41.666%;
+		width: 33.333%;
 	}
-
 	.col-8 {
-		width: 58.333%;
-		height: 620px;
+		width: 66.666%
 	}
-
 	.col-12 {
 		width: 100%;
 	}
-	.map-wrapper {
-		position: fixed;
-		max-width: 630px;
-		width: 53%;
-
-	}
+	div.radio-set {
+	display: block;
 }
+}
+
 
