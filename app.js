@@ -1,36 +1,12 @@
 var state = {
   map: null,
   offset: 0,
-<<<<<<< HEAD
-  searchTerm: null
-}
-
-function endpointSwitcher (selection) {
-  switch (selection) {
-  case 1:
-    var API_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
-    break;
-  case 2:
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_Playgrounds_001.json'
-    break;
-  case 3: 
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_RunningTracks_001.json'
-    break;
-  case 4:
-    var API_ENDPOINT = 'https://www.nycgovparks.org/bigapps/DPR_IceSkating_001.json'  
-  }
-  return API_ENDPOINT;
-}
-
-var PERMITTED_EVENT_ENDPOINT = 'https://data.cityofnewyork.us/resource/8end-qv57.json'
-=======
   searchTerm: null,
   borough: null,
-  savedResults: null,
+  savedResults: null
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
->>>>>>> test-branch
 
 var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
@@ -45,10 +21,6 @@ var RESULT_HTML_TEMPLATE = (
 	'</div></div></div>'
 );
 
-<<<<<<< HEAD
-function navNext(state) {
-  state.offset += 6;
-=======
 var RESULT_FAILURE_TEMPLATE = (
 	'<div class="br-results">' +
 	'<h3>Oops, there\'s nothing here</h3>' +
@@ -58,7 +30,6 @@ var RESULT_FAILURE_TEMPLATE = (
 
 function offsetNavNext (state) {
   state.offset += 12;
->>>>>>> test-branch
 }
 
 function offsetNavPrev (state) {
@@ -107,62 +78,11 @@ function getDataFromApi(callback, state) {
   $.ajax(settings);
 }
 
-<<<<<<< HEAD
-function renderResult(result) {
-  var template = $(RESULT_HTML_TEMPLATE);
-  template.find(".js-event-name").text("Event Name: " + result.event_name);
-  template.find(".js-start-date").text("Starts: " + Date(result.start_date_time).substring(0,21));
-  template.find(".js-end-time").text("Ends: " + Date(result.end_date_time).substring(0,21));
-  template.find(".js-event-loc").text("Location: " + result.event_location);
-  template.find(".js-event-borough").text("Borough: " + result.event_borough);
-  template.find(".js-event-type").text("Type: " + result.event_type);
-  template.find(".js-event-agency").text("Agency: " + result.event_agency);
-  return template;
-}
-
 function displayEventData(data) {
   var results = data.map(function(item, index) {
     return renderResult(item);
   });
   $('.js-result-display').html(results);
-}
-
-function createAddress(data) {
-  try {
-    var results = data.map(function(item, index) {
-      return (item.event_location.substring(0,40) + ', ' + item.event_borough);
-    });
-  return results;
-  }
-  catch (err) {
-    return;
-  }
-}
-
-function codeAddress(data) {
-  var geocoder = new google.maps.Geocoder();
-  var address = createAddress(data);
-  try {
-    address.forEach(function(item, index){geocoder.geocode( { 'address': item}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var marker = new google.maps.Marker({
-            map: state.map,
-            position: results[0].geometry.location,
-            title: data[index].event_name
-        });
-      } 
-      else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-        alert('Sorry, we could not find an address for ' + data[index].event_location + ' with Google maps and can\'t create a marker.');
-      }
-      else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    })
-  })
-}
-  catch (err) {
-    return;
-  }
 }
 
 //convert this to add a link to google maps with the address of the bathroom
