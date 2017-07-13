@@ -55,13 +55,6 @@ input[type="radio"] {
 	border-radius: 100%;
 }
 
-.br-results {
-	border: 1px solid grey;
-	margin-bottom: 5px;
-	height: 12%;
-	padding: 5px;
-}
-
 div.results {
 	border: 2px solid grey;
 	padding: 2.08%;
@@ -80,15 +73,34 @@ div.results {
 	width: 66.666%;
 }
 
-.results-button {
-	width: 100%;
-	margin-bottom: 15px;
-}
-
 .js-result-display {
 	padding: 5px;
 }
 
-.results-button:after {
-	margin-bottom: 0px;
+.result-col {
+	margin-bottom: 10px;
+}
+
+.br-results {
+	border: 2px outset grey;
+	margin-bottom: 5px;
+	padding: 5px;
+	height: 200px;
+	box-shadow: 3px 3px 3px black;
+	text-align: center;
+}
+
+.br-results:hover {
+	box-shadow: 0px 0px 0px black;
+}
+
+.results-nav {
+	margin: 0 auto;
+	text-align: center;
+}
+
+button.js-prev, button.next {
+	margin: 0 auto;
+	text-align: center;
+	width: 25%;
 }

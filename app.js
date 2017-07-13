@@ -28,13 +28,30 @@ var RESULT_FAILURE_TEMPLATE = (
 	'</div>'
 	)
 
+function offsetNavNext (state) {
+  state.offset += 12;
+}
+
+function offsetNavPrev (state) {
+  state.offset -= 12;
+}
+
+function displayPrev(state, target) {
+  if (state.offset === 0) {
+    target.closest('div').find(".js-prev").addClass('hidden');
+  }
+  else {
+    target.closest('div').find(".js-prev").removeClass('hidden');
+  }
+}
+
 function getDataFromApi(callback, state) {
   if (state.borough === "") {
   	var settings = {
     	url: PUBLIC_RESTROOMS_ENDPOINT,
     	data: {
       	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      	'$limit': 20,
+      	'$limit': 12,
       	'$offset': state.offset,
       	'$q' : state.searchTerm,
     	},
@@ -48,7 +65,7 @@ function getDataFromApi(callback, state) {
     	url: PUBLIC_RESTROOMS_ENDPOINT,
     	data: {
       	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      	'$limit': 20,
+      	'$limit': 12,
       	'$offset': state.offset,
       	'borough': state.borough,
       	'$q' : state.searchTerm,
@@ -118,3 +135,17 @@ $('form').submit(function(event) {
   getDataFromApi(displayBrData, state);
   displayApiResults($(this));
 });
+
+$('button.next').mousedown(function(event){
+  event.preventDefault();
+  offsetNavNext(state);
+  getDataFromApi(displayBrData, state);
+  displayPrev(state, $(this));
+})
+
+$('button.js-prev').mousedown(function(event){
+  event.preventDefault();
+  offsetNavPrev(state);
+  getDataFromApi(displayBrData, state);
+  displayPrev(state, $(this));
+})
