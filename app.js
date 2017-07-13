@@ -1,5 +1,4 @@
 var state = {
-  map: null,
   offset: 0,
   searchTerm: null,
   borough: null,
@@ -22,27 +21,46 @@ var RESULT_HTML_TEMPLATE = (
 );
 
 var RESULT_FAILURE_TEMPLATE = (
-	'<div class="br-results">' +
+	'<div class="br-fail-results">' +
 	'<h3>Oops, there\'s nothing here</h3>' +
 	'<h4>Hold for a bit longer and try a different search or different borough</h4>' +
 	'</div>'
 	)
 
-function offsetNavNext (state) {
+function offsetNavNext(state) {
   state.offset += 12;
 }
 
-function offsetNavPrev (state) {
+function offsetNavPrev(state) {
   state.offset -= 12;
 }
 
+function resetOffset(state) {
+  state.offset = null;
+}
+
+function displayNext(state, target) {
+  if (state.savedResults < 12) {
+    target.closest('div').find(".js-next").addClass("hidden");
+  }
+}
+
 function displayPrev(state, target) {
-  if (state.offset === 0) {
-    target.closest('div').find(".js-prev").addClass('hidden');
+  if (state.offset === null || state.offset <= 0) {
+    target.closest('div').find(".js-prev").addClass("hidden");
   }
   else {
-    target.closest('div').find(".js-prev").removeClass('hidden');
+    target.closest('div').find(".js-prev").removeClass("hidden");
   }
+}
+
+function handleNavDisplay(state, target) {
+  displayNext(state, target);
+  displayPrev(state, target);
+}
+
+function setResultsLength(results, state) {
+  state.savedResults = results.length;
 }
 
 function getDataFromApi(callback, state) {
@@ -93,7 +111,7 @@ function createAddress(state) {
   return results;
 }
 
-function hideBlanks (target, template, jsClass) {
+function hideBlanks(target, template, jsClass) {
   if (target !== undefined) {
     template.find(jsClass).removeClass("hidden");
   }
@@ -122,6 +140,7 @@ function displayBrData(data) {
 		var results = data.map(function(item, index) {
     		return renderResult(item);
     	})
+    setResultsLength(results, state);
     }
 	else {
 		var results = RESULT_FAILURE_TEMPLATE;
@@ -141,18 +160,20 @@ $('form').submit(function(event) {
   state.borough = $('input[name="borough"]:checked').val();
   getDataFromApi(displayBrData, state);
   displayApiResults($(this));
+  handleNavDisplay(state, $(this));
+  resetOffset(state);
 });
 
-$('button.next').mousedown(function(event){
+$('button.js-next').mousedown(function(event){
   event.preventDefault();
   offsetNavNext(state);
   getDataFromApi(displayBrData, state);
-  displayPrev(state, $(this));
-})
+  handleNavDisplay(state, $(this));
+});
 
 $('button.js-prev').mousedown(function(event){
   event.preventDefault();
   offsetNavPrev(state);
   getDataFromApi(displayBrData, state);
-  displayPrev(state, $(this));
-})
+  handleNavDisplay(state, $(this));
+});

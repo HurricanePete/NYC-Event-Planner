@@ -85,7 +85,7 @@ div.results {
 	border: 2px outset grey;
 	margin-bottom: 5px;
 	padding: 5px;
-	height: 200px;
+	height: 215px;
 	box-shadow: 3px 3px 3px black;
 	text-align: center;
 }
@@ -99,7 +99,7 @@ div.results {
 	text-align: center;
 }
 
-button.js-prev, button.next {
+button.js-prev, button.js-next {
 	margin: 0 auto;
 	text-align: center;
 	width: 25%;
