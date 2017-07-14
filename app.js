@@ -2,7 +2,7 @@ var state = {
   offset: 0,
   searchTerm: null,
   borough: null,
-  savedResults: null
+  savedResults: 0
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
@@ -36,31 +36,15 @@ function offsetNavPrev(state) {
 }
 
 function resetOffset(state) {
-  state.offset = null;
-}
-
-function displayNext(state, target) {
-  if (state.savedResults < 12) {
-    target.closest('div').find(".js-next").addClass("hidden");
-  }
-}
-
-function displayPrev(state, target) {
-  if (state.offset === null || state.offset <= 0) {
-    target.closest('div').find(".js-prev").addClass("hidden");
-  }
-  else {
-    target.closest('div').find(".js-prev").removeClass("hidden");
-  }
-}
-
-function handleNavDisplay(state, target) {
-  displayNext(state, target);
-  displayPrev(state, target);
+  state.offset = 0;
 }
 
 function setResultsLength(results, state) {
-  state.savedResults = results.length;
+  state.savedResults++;
+}
+
+function resetResultsLength(state) {
+  state.savedResults = 0
 }
 
 function getDataFromApi(callback, state) {
@@ -139,8 +123,8 @@ function displayBrData(data) {
 	if (data[0] != null) {
 		var results = data.map(function(item, index) {
     		return renderResult(item);
+        setResultsLength(results);
     	})
-    setResultsLength(results, state);
     }
 	else {
 		var results = RESULT_FAILURE_TEMPLATE;
@@ -148,20 +132,44 @@ function displayBrData(data) {
 	$('.js-result-display').html(results);
 }
 
+function displayNext(state, target) {
+  if (state.savedResults < 12) {
+    target.closest('div').find(".js-next").addClass("hidden");
+  }
+  else {
+    target.closest('div').find(".js-next").removeClass("hidden");
+  }
+}
+
+function displayPrev(state, target) {
+  if (state.offset <= 0) {
+    target.closest('div').find(".js-prev").addClass("hidden");
+  }
+  else {
+    target.closest('div').find(".js-prev").removeClass("hidden");
+  }
+}
+
+function handleNavDisplay(state, target) {
+  displayNext(state, target);
+  displayPrev(state, target);
+}
 
 function displayApiResults(target) {
   target.closest('body').find('div.result-display').removeClass('hidden');
   target.closest('body').find('div.results').removeClass('hidden');
+
 }
 
 $('form').submit(function(event) {
   event.preventDefault();
+  resetOffset(state);
   state.searchTerm = $('#search').val();
   state.borough = $('input[name="borough"]:checked').val();
   getDataFromApi(displayBrData, state);
   displayApiResults($(this));
-  handleNavDisplay(state, $(this));
-  resetOffset(state);
+  handleNavDisplay(state, $(".js-prev"));
+  resetResultsLength(state);
 });
 
 $('button.js-next').mousedown(function(event){
@@ -169,6 +177,7 @@ $('button.js-next').mousedown(function(event){
   offsetNavNext(state);
   getDataFromApi(displayBrData, state);
   handleNavDisplay(state, $(this));
+  resetResultsLength(state);
 });
 
 $('button.js-prev').mousedown(function(event){
@@ -176,4 +185,5 @@ $('button.js-prev').mousedown(function(event){
   offsetNavPrev(state);
   getDataFromApi(displayBrData, state);
   handleNavDisplay(state, $(this));
+  resetResultsLength(state);
 });
