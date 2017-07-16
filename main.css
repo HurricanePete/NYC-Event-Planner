@@ -82,15 +82,24 @@ div.results {
 }
 
 .br-results {
-	border: 2px outset grey;
+	border: 2px ridge grey;
 	margin-bottom: 5px;
-	padding: 5px;
-	height: 215px;
-	box-shadow: 3px 3px 3px black;
+	padding: 10px;
+	height: 250px;
 	text-align: center;
 }
 
-.br-results:hover {
+.result-title {
+	display: inline-block;
+}
+
+.js-link {
+	border: 1px outset black;
+	padding: 5px;
+	box-shadow: 2px 2px 2px black;
+}
+
+.js-link:hover {
 	box-shadow: 0px 0px 0px black;
 }
 

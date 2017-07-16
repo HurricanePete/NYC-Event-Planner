@@ -2,7 +2,7 @@ var state = {
   offset: 0,
   searchTerm: null,
   borough: null,
-  savedResults: 0
+  savedResults: 12
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
@@ -10,14 +10,13 @@ var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3s
 var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
 	'<div class="br-results">' +
-	'<div><h3 class="js-br-title"></h3></div>' + 
+	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div>' + 
 	'<div><p class="js-br-comment hidden"></p><br>' + 
 	'<p class="js-br-open hidden"></p><br>' + 
 	'<p class="js-br-borough"></p><br>' +
-	'<p class="js-br-location"></p><br>' +
-	'<img class="js-handicap hidden" src="handicap.jpg">' +
-	'<img class="js-no-handicap hidden" src="nohandicap.jpg">' +
-	'</div></div></div>'
+	'<p class="js-br-location"></p><br></div>' +
+	'<a target="_blank" class="js-link">Show Me</a>' +
+	'</div></div>'
 );
 
 var RESULT_FAILURE_TEMPLATE = (
@@ -39,15 +38,15 @@ function resetOffset(state) {
   state.offset = 0;
 }
 
-function setResultsLength(results, state) {
-  state.savedResults++;
+function setResultsLength(data, state) {
+  state.savedResults = Object.keys(data).length;
 }
 
 function resetResultsLength(state) {
-  state.savedResults = 0
+  state.savedResults = 12;
 }
 
-function getDataFromApi(callback, state) {
+async function getDataFromApi(callback, state) {
   if (state.borough === "") {
   	var settings = {
     	url: PUBLIC_RESTROOMS_ENDPOINT,
@@ -101,6 +100,15 @@ function hideBlanks(target, template, jsClass) {
   }
 }
 
+function renderLink(result) {
+	if (result.location === undefined) {
+		return "https://www.google.com/maps?q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
+	}
+	else {
+		return "https://www.google.com/maps?q=" + result.name.replace(/[,)(%]/g,"") + " ," + result.location + ", New York, NY";
+	}
+}
+
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
   template.find(".js-br-title").text(result.name);
@@ -116,6 +124,7 @@ function renderResult(result) {
   if (result.handicap_accessible === undefined) {
     template.find(".js-no-handicap").removeClass("hidden");
   }
+  template.find(".js-link").attr("href", renderLink(result));
   return template;
 }
 
@@ -123,8 +132,8 @@ function displayBrData(data) {
 	if (data[0] != null) {
 		var results = data.map(function(item, index) {
     		return renderResult(item);
-        setResultsLength(results);
     	})
+    	//setResultsLength(results.length, state);
     }
 	else {
 		var results = RESULT_FAILURE_TEMPLATE;
@@ -133,7 +142,7 @@ function displayBrData(data) {
 }
 
 function displayNext(state, target) {
-  if (state.savedResults < 12) {
+  if (state.savedResults !== 12) {
     target.closest('div').find(".js-next").addClass("hidden");
   }
   else {
@@ -148,6 +157,12 @@ function displayPrev(state, target) {
   else {
     target.closest('div').find(".js-prev").removeClass("hidden");
   }
+}
+
+function setDisplayResults(data) {
+	setResultsLength(data, state);
+	displayBrData(data, state);
+	displayNext(state, $(".js-next"));
 }
 
 function handleNavDisplay(state, target) {
@@ -166,24 +181,24 @@ $('form').submit(function(event) {
   resetOffset(state);
   state.searchTerm = $('#search').val();
   state.borough = $('input[name="borough"]:checked').val();
-  getDataFromApi(displayBrData, state);
+  getDataFromApi(setDisplayResults, state);
   displayApiResults($(this));
-  handleNavDisplay(state, $(".js-prev"));
+  displayNext(state, $(".js-next"));
   resetResultsLength(state);
 });
 
 $('button.js-next').mousedown(function(event){
   event.preventDefault();
   offsetNavNext(state);
-  getDataFromApi(displayBrData, state);
-  handleNavDisplay(state, $(this));
+  getDataFromApi(setDisplayResults, state);
+  displayPrev(state, $(this));
   resetResultsLength(state);
 });
 
 $('button.js-prev').mousedown(function(event){
   event.preventDefault();
   offsetNavPrev(state);
-  getDataFromApi(displayBrData, state);
-  handleNavDisplay(state, $(this));
+  getDataFromApi(setDisplayResults, state);
+  displayPrev(state, $(this))
   resetResultsLength(state);
 });
