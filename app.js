@@ -2,7 +2,7 @@ var state = {
   offset: 0,
   searchTerm: null,
   borough: null,
-  savedResults: 12
+  savedResults: 0
 }
 
 var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3sy.json'
@@ -15,7 +15,7 @@ var RESULT_HTML_TEMPLATE = (
 	'<p class="js-br-open hidden"></p><br>' + 
 	'<p class="js-br-borough"></p><br>' +
 	'<p class="js-br-location"></p><br></div>' +
-	'<a target="_blank" class="js-link">Show Me</a>' +
+	'<iframe class="js-iframe" scrolling="auto" src="" width="50" height="50" frameborder="1"></iframe>' +
 	'</div></div>'
 );
 
@@ -102,10 +102,10 @@ function hideBlanks(target, template, jsClass) {
 
 function renderLink(result) {
 	if (result.location === undefined) {
-		return "https://www.google.com/maps?q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
+		return "https://www.google.com/maps/embed/v1/place?key= &q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
 	}
 	else {
-		return "https://www.google.com/maps?q=" + result.name.replace(/[,)(%]/g,"") + " ," + result.location + ", New York, NY";
+		return "https://www.google.com/maps?q=" + result.location + ", New York, NY";
 	}
 }
 
@@ -124,7 +124,7 @@ function renderResult(result) {
   if (result.handicap_accessible === undefined) {
     template.find(".js-no-handicap").removeClass("hidden");
   }
-  template.find(".js-link").attr("href", renderLink(result));
+  template.find(".js-iframe").attr("src", renderLink(result));
   return template;
 }
 
@@ -133,7 +133,6 @@ function displayBrData(data) {
 		var results = data.map(function(item, index) {
     		return renderResult(item);
     	})
-    	//setResultsLength(results.length, state);
     }
 	else {
 		var results = RESULT_FAILURE_TEMPLATE;
@@ -165,9 +164,9 @@ function setDisplayResults(data) {
 	displayNext(state, $(".js-next"));
 }
 
-function handleNavDisplay(state, target) {
-  displayNext(state, target);
-  displayPrev(state, target);
+function handleNavDisplay(state, targetNext, targetPrev) {
+  displayNext(state, targetNext);
+  displayPrev(state, targetPrev);
 }
 
 function displayApiResults(target) {
@@ -183,8 +182,7 @@ $('form').submit(function(event) {
   state.borough = $('input[name="borough"]:checked').val();
   getDataFromApi(setDisplayResults, state);
   displayApiResults($(this));
-  displayNext(state, $(".js-next"));
-  resetResultsLength(state);
+  handleNavDisplay(state, $(".js-next"), $(".js-prev"));
 });
 
 $('button.js-next').mousedown(function(event){
@@ -192,7 +190,7 @@ $('button.js-next').mousedown(function(event){
   offsetNavNext(state);
   getDataFromApi(setDisplayResults, state);
   displayPrev(state, $(this));
-  resetResultsLength(state);
+  //resetResultsLength(state);
 });
 
 $('button.js-prev').mousedown(function(event){
@@ -200,5 +198,5 @@ $('button.js-prev').mousedown(function(event){
   offsetNavPrev(state);
   getDataFromApi(setDisplayResults, state);
   displayPrev(state, $(this))
-  resetResultsLength(state);
+  //resetResultsLength(state);
 });
