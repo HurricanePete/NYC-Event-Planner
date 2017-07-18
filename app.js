@@ -102,10 +102,10 @@ function hideBlanks(target, template, jsClass) {
 
 function renderLink(result) {
 	if (result.location === undefined) {
-		return "https://www.google.com/maps/embed/v1/place?key= &q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
+		return "https://www.google.com/maps/embed/v1/place?key=AIzaSyC2jEbb41iCPDx2_98MqYS3e6ogcxz4uj4&q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
 	}
 	else {
-		return "https://www.google.com/maps?q=" + result.location + ", New York, NY";
+		return "https://www.google.com/maps/embed/v1/place?key=AIzaSyC2jEbb41iCPDx2_98MqYS3e6ogcxz4uj4&q=" + result.location.replace("&", "and") + ", New York, NY";
 	}
 }
 
