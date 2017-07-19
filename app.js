@@ -11,11 +11,11 @@ var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
 	'<div class="br-results">' +
 	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div>' + 
-	'<div><p class="js-br-comment hidden"></p><br>' + 
-	'<p class="js-br-open hidden"></p><br>' + 
-	'<p class="js-br-borough"></p><br>' +
-	'<p class="js-br-location"></p><br></div>' +
-	'<iframe class="js-iframe" scrolling="auto" src="" width="50" height="50" frameborder="1"></iframe>' +
+	'<p><span class="js-br-comment hidden"></span><br>' + 
+	'<span class="js-br-open hidden"></span><br>' + 
+	'<span class="js-br-borough"></span><br>' +
+	'<span class="js-br-location"></span><br></p><br>' +
+	'<a target="_blank" class="js-link" href="">Show Me</a>' +
 	'</div></div>'
 );
 
@@ -102,10 +102,10 @@ function hideBlanks(target, template, jsClass) {
 
 function renderLink(result) {
 	if (result.location === undefined) {
-		return "https://www.google.com/maps/embed/v1/place?key= &q=" + result.name.replace(/[,)(%]/g,"") + " ," + ", New York, NY";
+		return "https://www.google.com/maps?q=" + result.name.replace(/[,)(%]/g,"") + ", New York, NY";
 	}
 	else {
-		return "https://www.google.com/maps?q=" + result.location + ", New York, NY";
+		return "https://www.google.com/maps?q=" + result.location.replace("&", "and") + ", New York, NY";
 	}
 }
 
@@ -124,7 +124,7 @@ function renderResult(result) {
   if (result.handicap_accessible === undefined) {
     template.find(".js-no-handicap").removeClass("hidden");
   }
-  template.find(".js-iframe").attr("src", renderLink(result));
+  template.find(".js-link").attr("href", renderLink(result));
   return template;
 }
 
