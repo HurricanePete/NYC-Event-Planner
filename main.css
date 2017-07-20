@@ -1,10 +1,15 @@
 html {
-	background-color: aliceblue;
 	display: inline-block;
 }
 
 header {
 	text-align: center;
+}
+
+body {
+	background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("images/nyc-stock-photo.jpg"), radial-gradient(white 0%, white 100%);
+	background-repeat: no-repeat;
+	background-color: aliceblue;
 }
 
 p {
@@ -92,6 +97,7 @@ div.results {
 	padding: 10px;
 	height: 250px;
 	text-align: center;
+	background-color: seashell;
 }
 
 .result-title {
@@ -100,10 +106,11 @@ div.results {
 
 .js-link {
 	border: 1px outset black;
-	border-radius: 3%;
+	border-radius: 5%;
 	padding: 5px;
 	margin-top: 20px;
 	box-shadow: 2px 2px 2px black;
+
 }
 
 .js-link:hover {
@@ -116,6 +123,9 @@ div.results {
 }
 
 button.js-prev, button.js-next {
+	background-color: seashell;
+	border-width: 3px;
+	border-color: lightgrey;
 	margin: 0 auto;
 	text-align: center;
 	width: 25%;

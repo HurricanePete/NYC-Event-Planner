@@ -10,9 +10,9 @@ var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3s
 var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
 	'<div class="br-results">' +
-	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div>' + 
-	'<p><span class="js-br-comment hidden"></span><br>' + 
-	'<span class="js-br-open hidden"></span><br>' + 
+	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div><br>' + 
+	'<p><span class="js-br-comment hidden"></span><br><hr>' + 
+	'<span class="js-br-open hidden"></span><br><hr>' + 
 	'<span class="js-br-borough"></span><br>' +
 	'<span class="js-br-location"></span><br></p><br>' +
 	'<a target="_blank" class="js-link" href="">Show Me</a>' +
@@ -27,11 +27,11 @@ var RESULT_FAILURE_TEMPLATE = (
 	)
 
 function offsetNavNext(state) {
-  state.offset += 12;
+  state.offset += 9;
 }
 
 function offsetNavPrev(state) {
-  state.offset -= 12;
+  state.offset -= 9;
 }
 
 function resetOffset(state) {
@@ -42,17 +42,13 @@ function setResultsLength(data, state) {
   state.savedResults = Object.keys(data).length;
 }
 
-function resetResultsLength(state) {
-  state.savedResults = 12;
-}
-
 async function getDataFromApi(callback, state) {
   if (state.borough === "") {
   	var settings = {
     	url: PUBLIC_RESTROOMS_ENDPOINT,
     	data: {
       	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      	'$limit': 12,
+      	'$limit': 9,
       	'$offset': state.offset,
       	'$q' : state.searchTerm,
     	},
@@ -66,7 +62,7 @@ async function getDataFromApi(callback, state) {
     	url: PUBLIC_RESTROOMS_ENDPOINT,
     	data: {
       	'$$app_token': '4buJLe3e35CTn7IkRQcSZ8i3W',
-      	'$limit': 12,
+      	'$limit': 9,
       	'$offset': state.offset,
       	'borough': state.borough,
       	'$q' : state.searchTerm,
@@ -141,7 +137,7 @@ function displayBrData(data) {
 }
 
 function displayNext(state, target) {
-  if (state.savedResults !== 12) {
+  if (state.savedResults !== 9) {
     target.closest('div').find(".js-next").addClass("hidden");
   }
   else {
@@ -190,7 +186,6 @@ $('button.js-next').mousedown(function(event){
   offsetNavNext(state);
   getDataFromApi(setDisplayResults, state);
   displayPrev(state, $(this));
-  //resetResultsLength(state);
 });
 
 $('button.js-prev').mousedown(function(event){
@@ -198,5 +193,4 @@ $('button.js-prev').mousedown(function(event){
   offsetNavPrev(state);
   getDataFromApi(setDisplayResults, state);
   displayPrev(state, $(this))
-  //resetResultsLength(state);
 });
