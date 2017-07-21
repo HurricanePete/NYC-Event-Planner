@@ -11,10 +11,10 @@ var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
 	'<div class="br-results">' +
 	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div><br>' + 
-	'<p><span class="js-br-comment hidden"></span><br><hr>' + 
-	'<span class="js-br-open hidden"></span><br><hr>' + 
+	'<p><span class="js-br-comment important hidden"></span><br><hr>' + 
+	'<span class="js-br-location"></span><br><hr>' + 
 	'<span class="js-br-borough"></span><br>' +
-	'<span class="js-br-location"></span><br></p><br>' +
+	'<span class="js-br-open hidden"></span><br></p><br>' +
 	'<a target="_blank" class="js-link" href="">Show Me</a>' +
 	'</div></div>'
 );
