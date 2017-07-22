@@ -1,3 +1,5 @@
+result.location.replace("&", "and").replace(/[,)(%]/g,"").replace(/[-/]/g, " ")
+
 function initializeMap() {
   var latlng = new google.maps.LatLng(40.7288, -73.9579);
   var mapOptions = {

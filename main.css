@@ -11,6 +11,7 @@ header {
 
 body {
 	background: url("images/nyc-stock-photo.jpg");
+	background-size: cover;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-color: aliceblue;
@@ -110,6 +111,13 @@ div.results {
 	height: 250px;
 	text-align: center;
 	background-color: seashell;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+}
+
+.br-fail-results {
+	color: seashell;
+	text-align: center;
 }
 
 .result-title {
@@ -150,7 +158,5 @@ button.js-prev, button.js-next {
 
 .js-br-location {
 	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow-x: hidden;
 	height: 18px;
 }
