@@ -19,7 +19,7 @@ body {
 }
 
 .darken {
-	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/nyc-stock-photo.jpg");
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/NYC-stock-photo.jpg");
 	height: 100%;
 	width: 100%;
 }
