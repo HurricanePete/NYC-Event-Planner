@@ -3,9 +3,9 @@ List of current NYC Public Bathrooms that are operated by the Parks Department
 
 ## Table of Contents
 
-- [Screenshots] (#screenshots)
-- [Summary] (#summary)
-- [Technologies] (#technologies)
+- [Screenshots](#screenshots)
+- [Summary](#summary)
+- [Technologies](#technologies)
 
 ## Screenshots 
 
