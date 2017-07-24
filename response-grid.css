@@ -6,8 +6,8 @@
 
 .row {
 	max-width: 1920px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 25px;
+	padding-right: 25px;
 	margin: 0 auto;
 }
 
@@ -32,10 +32,10 @@
 	width: 100%;
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and (min-width: 620px) {
 	.col-4 {
-		width: 75%;
-		margin-left: 12.5%;
+		width: 45%;
+		margin-left: 5%;
 	}
 	div.radios {
 		width: 100%;
@@ -44,7 +44,8 @@
 
 @media only screen and (min-width: 1200px) {
 	.col-4 {
-		width: 33.333%;
+		width: 30%;
+		margin-left: 3%;
 	}
 	.col-8 {
 		width: 66.666%
