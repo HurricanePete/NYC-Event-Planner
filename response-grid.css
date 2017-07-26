@@ -1,4 +1,4 @@
-
+/*style sheet to manage responsiveness of elements across screen sizes*/
 * {
 	box-sizing: border-box;
 	font-family: 'Roboto', sans-serif;
@@ -30,6 +30,12 @@
 
 .col-12, .col-4, .col-8 {
 	width: 100%;
+}
+
+@media only screen and (max-width: 620px) {
+	.col-4 {
+		width: 100%;
+	}
 }
 
 @media only screen and (min-width: 620px) {

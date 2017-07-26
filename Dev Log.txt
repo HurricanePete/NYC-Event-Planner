@@ -140,3 +140,8 @@
 
 --To Do--
 (1) User feedback
+
+-7/26/17-
+(1) Added changes corresponding to feedback from reviewers
+-mostly styling fixes
+

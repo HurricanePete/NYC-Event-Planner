@@ -26,6 +26,7 @@ var RESULT_FAILURE_TEMPLATE = (
 	'</div>'
 	)
 
+//button behavior on nav press to set offsets on the api calls
 function offsetNavNext(state) {
   state.offset += 9;
 }
@@ -41,7 +42,8 @@ function resetOffset(state) {
 function setResultsLength(data, state) {
   state.savedResults = Object.keys(data).length;
 }
-
+//tests to see if input starts with a number and removes any text if true
+//API searches originally would not return results for 14th street
 function cleanInput(input) {
 	if (/^\d/g.test(input)) {
 		return input.replace(/\D/g, "");
@@ -51,6 +53,8 @@ function cleanInput(input) {
 	}
 }
 
+//handles api calls differently if a borough has been selected
+//searching with the borough parameter empty returns no results
 async function getDataFromApi(callback, state) {
   if (state.borough === "") {
   	var settings = {
@@ -91,14 +95,6 @@ function displayEventData(data) {
   $('.js-result-display').html(results);
 }
 
-//convert this to add a link to google maps with the address of the bathroom
-function createAddress(state) {
-  var results = state[savedResults].map(function(item, index) {
-    return (item.name + ', New York');
-  });
-  return results;
-}
-
 function hideBlanks(target, template, jsClass) {
   if (target !== undefined) {
     template.find(jsClass).removeClass("hidden");
@@ -109,6 +105,8 @@ function renderLink(result) {
 	if (result.location === undefined) {
 		return "https://www.google.com/maps?q=" + result.name.replace(/[,)/(%]/g,"") + " park, " +  result.borough + ", NY";
 	}
+  //strips letters from the result location
+  //using numbers from the address returned more stable results for this map function
 	else {
 		return "https://www.google.com/maps?q=" + result.name.replace(/[,)/(%]/g,"") + " park, " + result.location.toLowerCase().replace(/[abcdefghijklmnopqrstuvwxyz.-/&]/g, "") + result.borough + ", NY";
 	}
@@ -116,6 +114,7 @@ function renderLink(result) {
 
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
+  //shows full location names on mouse-over in case the location text overflows and is clipped
   template.find(".js-br-title").text(result.name);
   template.find(".js-br-comment").text(result.comments);
   hideBlanks(result.comments, template, ".js-br-comment");
@@ -132,7 +131,7 @@ function renderResult(result) {
   template.find(".js-link").attr("href", renderLink(result));
   return template;
 }
-
+//if the api call returns no results this displays an error message
 function displayBrData(data) {
 	if (data[0] != null) {
 		var results = data.map(function(item, index) {
@@ -145,6 +144,8 @@ function displayBrData(data) {
 	$('.js-result-display').html(results);
 }
 
+//lines 146-162 create responsive nav buttons that appear and disappear based on
+//how many results are returned by the api call
 function displayNext(state, target) {
   if (state.savedResults !== 9) {
     target.closest('div').find(".js-next").addClass("hidden");
