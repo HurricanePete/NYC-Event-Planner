@@ -39,13 +39,17 @@
 	label.radio {
 		width: 100%;
 		display: inline-block;
+		text-align: left;
+	}
+	div.radios {
+		position: relative;
+		left: 25px;
 	}
 }
 
 @media only screen and (min-width: 620px) {
 	.col-4 {
 		width: 45%;
-		margin-left: 5%;
 	}
 	div.radios {
 		width: 100%;
@@ -55,8 +59,7 @@
 
 @media only screen and (min-width: 1200px) {
 	.col-4 {
-		width: 30%;
-		margin-left: 3%;
+		width: 32%;
 	}
 	.col-8 {
 		width: 66.666%

@@ -33,6 +33,7 @@ h1 {
 
 h3 {
 	margin: 0 auto;
+	padding-top: 10px;
 }
 
 a {
@@ -77,8 +78,8 @@ input[type="radio"] {
 
 .js-handicap, .js-no-handicap {
 	margin-top: 10px;
-	width: 25px;
-	height: 25px;
+	width: 30px;
+	height: 30px;
 	border-radius: 100%;
 }
 
@@ -101,18 +102,26 @@ div.results {
 	margin: 10px;
 	background-color: rgba(5,5,5,0.7);
 	color: white;
-	padding: 6px;
+	padding: 6px 12px;
 	border: 1px solid seashell
+	border-radius: 5%;
 }
 
 #search-submit {
 	color: seashell;
 	background-color: rgba(5,5,5,0.7);
 	padding: 6px 12px;
+	border-radius: 5%;
 }
 
 .js-result-display {
 	padding: 5px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
 }
 
 .result-col {
@@ -123,7 +132,7 @@ div.results {
 	border: 2px ridge seashell;
 	margin-bottom: 5px;
 	padding: 10px;
-	height: 250px;
+	height: 300px;
 	text-align: center;
 	background-color: rgba(5,5,5,0.7);
 	color: seashell;
@@ -145,14 +154,16 @@ div.results {
 	border: 1px outset seashell;
 	color: seashell;
 	border-radius: 5%;
-	padding: 5px;
 	margin-top: 20px;
-	box-shadow: 2px 2px 2px seashell;
+	padding: 6px 12px;
 
 }
 
 .js-link:hover {
-	box-shadow: 0px 0px 0px black;
+	transition-property: color, background-color;
+	transition-duration: .5s;
+	background-color: seashell;
+	color: black;
 }
 
 .results-nav {
@@ -162,11 +173,13 @@ div.results {
 
 button.js-prev, button.js-next {
 	background-color: seashell;
-	border-width: 3px;
+	border-width: 2px;
 	border-color: lightgrey;
 	margin: 0 auto;
 	text-align: center;
 	width: 25%;
+	padding: 6px 12px;
+	border-radius: 5%;
 }
 /*to highlight comments*/
 .important {
