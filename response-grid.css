@@ -36,6 +36,10 @@
 	.col-4 {
 		width: 100%;
 	}
+	label.radio {
+		width: 100%;
+		display: inline-block;
+	}
 }
 
 @media only screen and (min-width: 620px) {
@@ -46,6 +50,7 @@
 	div.radios {
 		width: 100%;
 	}
+	
 }
 
 @media only screen and (min-width: 1200px) {
@@ -59,8 +64,6 @@
 	.col-12 {
 		width: 100%;
 	}
-	div.radio-set {
-	display: block;
 }
 }
 
