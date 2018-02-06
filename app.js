@@ -9,14 +9,14 @@ var PUBLIC_RESTROOMS_ENDPOINT = 'https://data.cityofnewyork.us/resource/r27e-u3s
 
 var RESULT_HTML_TEMPLATE = (
   '<div class="col-4">'+
-	'<div class="br-results">' +
-	'<div class="result-title"><h3 class="js-br-title"></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div><br>' + 
-	'<p><span class="js-br-comment important hidden"></span><br><hr>' + 
-	'<span title="" class="js-br-location"></span><br><hr>' + 
+	'<a target="_blank" class="js-link" href=""><div class="br-results">' +
+	'<div class="result-title"><h3 class="js-br-title" title=""></h3><img class="js-handicap hidden" src="images/handicap.jpg"><img class="js-no-handicap hidden" src="images/nohandicap.jpg"></div><br>' + 
+	'<p class="js-comment-container"><span class="js-br-comment important"></span><br><hr>' + 
+	'<p class="location-container"><span title="" class="js-br-location"></span></p><br><hr>' + 
 	'<span class="js-br-borough"></span><br>' +
 	'<span class="js-br-open hidden"></span><br></p><br>' +
-	'<a target="_blank" class="js-link" href="">Show Me</a>' +
-	'</div></div>'
+	'<button class="link-button">Show Me</button>' +
+	'</div></a></div>'
 );
 
 var RESULT_FAILURE_TEMPLATE = (
@@ -95,11 +95,11 @@ function displayEventData(data) {
   $('.js-result-display').html(results);
 }
 
-function hideBlanks(target, template, jsClass) {
-  if (target !== undefined) {
-    template.find(jsClass).removeClass("hidden");
+function locationAlert(target, template, jsClass, item) {
+  if (target === undefined || target === "") {
+    template.find(jsClass).text(item + ' information unavailable').addClass('important');
   }
-}
+} 
 
 function renderLink(result) {
 	if (result.location === undefined) {
@@ -114,18 +114,17 @@ function renderLink(result) {
 
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
-  //shows full location names on mouse-over in case the location text overflows and is clipped
-  template.find(".js-br-title").text(result.name);
+  //shows full location and title on mouse-over in case the location text overflows and is clipped
+  template.find(".js-br-title").text(result.name).attr("title", result.name);
   template.find(".js-br-comment").text(result.comments);
-  hideBlanks(result.comments, template, ".js-br-comment");
   template.find(".js-br-open").text("Open Year Round: " + result.open_year_round);
-  hideBlanks(result.open_year_round, template, ".js-br-open");
   template.find(".js-br-borough").text(result.borough);
   template.find(".js-br-location").text(result.location).attr("title", result.location);
+  locationAlert(result.location, template, ".js-br-location", 'Location');
   if (result.handicap_accessible === 'Yes') {
   	template.find(".js-handicap").removeClass("hidden");
   }
-  if (result.handicap_accessible === undefined) {
+  else if (result.handicap_accessible === undefined) {
     template.find(".js-no-handicap").removeClass("hidden");
   }
   template.find(".js-link").attr("href", renderLink(result));
