@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
   	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   	<link rel="icon" type="image/jpeg" href="images/toilet_sign.jpeg">
+  	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 </head>
 <body class="darken">
 	<main>
@@ -21,9 +22,8 @@
 		<div class="row">
 			<form class="col-12">
 				<fieldset class="search-form">
-					<legend><h3>Where do you need to go?</h3></legend>
-					<input placeholder="Try searching 'Central Park' or '14th street' " id="search" type="search" name="search-bar">
-					<button id="search-submit" type="submit">Gotta Go!</button><br>
+					<input placeholder="Try searching 'Central Park' or '14th street' " class="search" id="search" type="search" name="search-bar">
+					<button class="search-submit" id="search-submit" type="submit">Gotta Go!</button><br>
 					<div class="radios">
 						<label class="radio">
 							<input type="radio" name="borough" value="Manhattan">
@@ -65,6 +65,28 @@
 			</div>	
 		</div><!--wrapper to contain search results-->
 	</main>
+	<footer>
+		<div class="col-3">
+			<a href="http://zaksavagepete.me/" target="_blank" rel="noopener noreferrer"><p class="link-hover">Created by Zachary Pete</p></a>
+			<ul>
+				<li class="footer-link">
+					<a href="https://github.com/HurricanePete" target="_blank" rel="noopener noreferrer">
+						<i class="link-hover fab fa-github-square fa-2x"></i>
+					</a>
+				</li>
+				<li class="footer-link">
+					<a href="http://zaksavagepete.me/" target="_blank" rel="noopener noreferrer">
+						<i class="link-hover fas fa-briefcase fa-2x"></i>
+					</a>
+				</li>
+				<li class="footer-link">
+					<a href="https://www.linkedin.com/in/zachary-pete-78131a94/" target="_blank" rel="noopener noreferrer">
+						<i class="link-hover fab fa-linkedin fa-2x"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</footer>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="app.js"></script>
 </body>

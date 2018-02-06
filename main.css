@@ -1,5 +1,6 @@
 html {
-	display: inline-block;
+	position: relative;
+	min-height: 100%;
 }
 
 header {
@@ -17,6 +18,14 @@ body {
 	background-position: center;
 }
 
+main {
+	padding-bottom: 6rem;
+}
+
+form {
+	margin-top: 1rem;
+}
+
 .darken {
 	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(images/NYC-stock-photo.jpg);
 	height: 100%;
@@ -27,17 +36,27 @@ p {
 	margin: 0 auto;
 }
 
-h1 {
-	padding-bottom: 18px;
-}
-
 h3 {
 	margin: 0 auto;
-	padding-top: 10px;
 }
 
 a {
 	text-decoration: none;
+}
+
+button {
+	background-color: rgba(5,5,5,0.7);
+	color: seashell;
+	padding: 5px;
+	margin: 0 auto;
+	text-align: center;
+	transition: all 0.5s ease;
+}
+
+button:hover {
+	background-color: seashell;
+	color: rgba(5,5,5,0.7);
+	cursor: pointer;
 }
 
 .title {
@@ -48,16 +67,18 @@ a {
 	display: none;
 }
 
-fieldset {
+fieldset.search-form {
 	width: 100%;
 	margin: 0 auto;
 	text-align: center;
 	color: seashell;
+	border: none;
+	font-size: larger;
 }
 
 div.radios {
 	display: block;
-	width: 45%;
+	width: 70%;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -84,44 +105,27 @@ input[type="radio"] {
 }
 
 div.results {
-	border: 2px solid grey;
-	padding: 2.08%;
+	padding: 5rem 2.08% 8rem 2.08%;
 	margin-top: 15px;
 	height: 100%;
 }
 
-.search-wrapper {
-	margin: 0 auto;
-	text-align: center;
-	width: 33.333%;
-	min-width: 260px;
-}
-
-#search {
-	width: 35%;
+.search {
+	height: 3rem;
+	width: 50%;
 	margin: 10px;
 	background-color: rgba(5,5,5,0.7);
-	color: white;
-	padding: 6px 12px;
-	border: 1px solid seashell
-	border-radius: 5%;
+	color: seashell;
+	padding-left: 1rem;
 }
 
-#search-submit {
-	color: seashell;
-	background-color: rgba(5,5,5,0.7);
-	padding: 6px 12px;
-	border-radius: 5%;
+.search-submit {
+	height: 3rem;
+	padding: 0.5rem 1rem;
 }
 
 .js-result-display {
 	padding: 5px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-content: center;
-	align-items: center;
 }
 
 .result-col {
@@ -129,16 +133,12 @@ div.results {
 }
 
 .br-results {
-	border: 2px ridge seashell;
-	margin-bottom: 5px;
-	padding: 10px;
+	margin-bottom: 1rem;
+	padding: 2rem 10px;
 	height: 300px;
 	text-align: center;
 	background-color: rgba(5,5,5,0.7);
 	color: seashell;
-	/*handles long locations that spill out of the results tabs*/
-	text-overflow: ellipsis;
-	overflow-x: hidden;
 }
 
 .br-fail-results {
@@ -148,22 +148,36 @@ div.results {
 
 .result-title {
 	display: inline-block;
+	width: 100%;
 }
 
-.js-link {
-	border: 1px outset seashell;
-	color: seashell;
+/*to highlight comments*/
+.important {
+	color: red;
+	font-weight: bold;
+}
+/*handles long titles that spill out of the results tabs*/
+.js-br-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.location-container {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/*handles long locations that spill out of the results tabs*/
+.js-br-location {
+	height: 18px;
+}
+
+.link-button {
 	border-radius: 5%;
-	margin-top: 20px;
-	padding: 6px 12px;
-
-}
-
-.js-link:hover {
-	transition-property: color, background-color;
-	transition-duration: .5s;
-	background-color: seashell;
-	color: black;
+	border: 2px solid seashell;
+	padding: 10px;
 }
 
 .results-nav {
@@ -172,22 +186,51 @@ div.results {
 }
 
 button.js-prev, button.js-next {
-	background-color: seashell;
-	border-width: 2px;
-	border-color: lightgrey;
 	margin: 0 auto;
-	text-align: center;
 	width: 25%;
-	padding: 6px 12px;
-	border-radius: 5%;
 }
-/*to highlight comments*/
-.important {
-	background-color: red;
-	font-weight: bold;
+
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 6rem;
+	width: 100%;
+	padding: 1rem;
+	background-color: rgba(5,5,5,0.7);
+	color: seashell;
+	text-align: center;
 }
-/*handles long locations that spill out of the results tabs*/
-.js-br-location {
-	white-space: nowrap;
-	height: 18px;
+
+footer > div.col-3 {
+	float: none;
+}
+
+footer ul {
+	list-style: none;
+	margin: 0;
+	padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+footer p {
+	width: 12rem;
+	font-size: 15px;
+}
+
+.footer-link {
+	display: inline-block;
+	margin: 0.5rem;
+}
+
+.link-hover {
+	color: seashell;
+	padding: 1px 5px;
+	transition: all 0.25s ease-in-out 0s;
+}
+
+.link-hover:hover {
+	transform: scale(1.1);
+	background: seashell;
+	color: rgba(5,5,5,0.7);
+	border-radius: 5px;
 }
