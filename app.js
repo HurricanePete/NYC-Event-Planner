@@ -182,7 +182,6 @@ function displayApiResults(target) {
 
 $('form').submit(function(event) {
   event.preventDefault();
-  fbq('track', 'Search');
   resetOffset(state);
   state.searchTerm = cleanInput($('#search').val());
   state.borough = $('input[name="borough"]:checked').val();
